@@ -7,6 +7,8 @@ function Nav() {
   const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
+  
 
   useEffect(()=>{
     const fetchUser = async () => {
@@ -18,7 +20,7 @@ function Nav() {
       
 
       try {
-        const response = await axios.get('http://localhost:8000/profile',{
+        const response = await axios.get(`${baseApiUrl}/profile`,{
           headers: {
             Authorization : `Bearer ${authToken}`   
             
