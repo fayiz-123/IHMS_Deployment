@@ -1,0 +1,240 @@
+/* General Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* Main container */
+#profile-update {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Wrapper */
+#profile-update .wrapper.profile-update {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Two columns */
+#profile-update .container {
+    display: flex;
+    width: 100%;
+    max-width: 1100px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px blue;
+}
+
+#profile-update .col-left {
+    width: 50%;
+    background-color: rgb(40, 40, 116);
+    color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#profile-update .col-right {
+    width: 50%;
+    padding: 40px;
+}
+
+/* Heading and Text */
+#profile-update .update-text h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#profile-update .update-text p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Form Styling */
+#profile-update .update-form h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-align: center;
+    color: rgb(40, 40, 116);
+}
+
+#profile-update .update-form form p {
+    margin-bottom: 6px;
+}
+
+#profile-update .update-form label {
+    color: rgb(40, 40, 116);
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+#profile-update .update-form input[type="text"],
+#profile-update .update-form input[type="submit"] {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid #080808;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+#profile-update .update-form input[type="submit"] {
+    background-color: rgb(40, 40, 116);
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#profile-update .update-form input[type="submit"]:hover {
+    background-color: #5a3b8d;
+}
+
+#profile-update .update-form input[type="submit"]:active {
+    transform: scale(0.98);
+}
+
+/* Address Section */
+.address-section {
+    margin-top: 20px;
+}
+
+.address-section label {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: rgb(40, 40, 116);
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* Card style for each address */
+.address-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f4f6fc;
+}
+
+/* Each input + label */
+.single-field {
+    margin-bottom: 15px;
+}
+
+.single-field label {
+    display: block;
+    font-weight: 600;
+    color: #2b2b7f;
+    margin-bottom: 5px;
+}
+
+.single-field input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Button Styles */
+.address-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    padding-bottom: 5px;
+}
+
+.add-btn, .remove-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.add-btn:hover {
+    background-color: #218838;
+}
+
+.remove-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.remove-btn:hover {
+    background-color: #c82333;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    #profile-update .container {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    #profile-update .col-left,
+    #profile-update .col-right {
+        width: 100%;
+    }
+
+    #profile-update .update-text h2 {
+        font-size: 1.8rem;
+    }
+
+    #profile-update .update-form h2 {
+        font-size: 1.8rem;
+    }
+
+    #profile-update .update-form input[type="text"] {
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .address-card {
+        padding: 15px;
+    }
+
+    .single-field input {
+        font-size: 0.95rem;
+    }
+
+    .address-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .remove-btn, .add-btn {
+        width: 100%;
+    }
+}

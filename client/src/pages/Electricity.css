@@ -1,0 +1,135 @@
+:root {
+  --primary-color: #8947f4; /* Light violet */
+  --secondary-color: #8e44ad; /* Muted purple */
+  --accent-color: #f39c12; /* Softer yellow */
+  --text-color: #333; /* Standard text color */
+  --light-bg: #f9f9f9; /* Light background */
+  --card-shadow: rgba(0, 0, 0, 0.1); /* Subtle card shadow */
+  --font-family: "Poppins", sans-serif;
+}
+
+#elec * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#elec body {
+  font-family: var(--font-family);
+  background: #fff;
+  color: var(--text-color);
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+#elec .hero-section {
+  position: relative;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgb(40, 40, 116); /* Light violet background */
+  color: #fff;
+}
+
+#elec .hero-section .hero-content {
+  max-width: 900px;
+  padding: 20px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+#elec .hero-section h1 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px rgba(143, 11, 11, 0.2);
+}
+
+#elec .hero-section .subheading {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin: 10px auto 20px;
+  border-left: 3px solid #fff;
+  padding-left: 15px;
+}
+
+/* Electricity Details Section */
+#elec .electricity-details {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: var(--light-bg);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px var(--card-shadow);
+}
+
+#elec .electricity-details p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 15px;
+  color: var(--text-color);
+}
+
+#elec .electricity-details p strong {
+  color: rgb(40, 40, 116);
+  font-weight: bold;
+}
+
+/* Book Now Button Section */
+#elec .book-now-section {
+  text-align: center;
+  margin: 40px auto;
+}
+
+#elec .book-now-button {
+  padding: 12px 30px;
+  background-color: rgb(43, 43, 154); /* Primary theme color */
+  color: white;
+  font-size: 1.2rem;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+#elec .book-now-button:hover {
+  background-color: #116A7B; /* Accent color on hover */
+  transform: scale(1.05);
+}
+
+#elec .book-now-button:active {
+  transform: scale(0.98);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #elec .hero-section h1 {
+    font-size: 2.2rem;
+  }
+
+  #elec .hero-section .subheading {
+    font-size: 1rem;
+  }
+
+  #elec .electricity-details {
+    padding: 15px;
+  }
+
+  #elec .electricity-details p {
+    font-size: 1rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

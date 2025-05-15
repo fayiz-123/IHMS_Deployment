@@ -1,0 +1,120 @@
+#book {
+  background-color: #f9f9f9;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#book h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+#book form {
+  display: flex;
+  flex-direction: column;
+}
+
+#book form div {
+  margin-bottom: 20px;
+}
+
+#book form label {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+#book form input,
+#book form textarea,
+#book form select {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+}
+
+#book form input:focus,
+#book form textarea:focus,
+#book form select:focus {
+  outline: none;
+  border-color: #8947f4;
+}
+
+#book form textarea {
+  min-height: 120px;
+}
+
+#book form .submit-button {
+  padding: 14px 35px;
+  background-color:rgb(40, 40, 116);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#book form .submit-button:hover {
+  background-color: #083d72;
+}
+
+#book form .submit-button:active {
+  background-color:  #114f8e;
+}
+
+#book .error-message {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+#book .success-message {
+  color: #2ecc71;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+#book .back-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#book .back-link a {
+  color: #8947f4;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+#book .back-link a:hover {
+  text-decoration: underline;
+}
+#success-message {
+  padding: 20px;
+  background-color:rgb(40, 40, 116); /* Accent color */
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+#success-message h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+#success-message p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}

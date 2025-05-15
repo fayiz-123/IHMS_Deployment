@@ -1,0 +1,105 @@
+/* AdminDash.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+#ad {
+  display: flex;
+  height: 100vh;
+  background: #f4f4f4;
+}
+
+/* Sidebar */
+#ad .sidebar {
+  width: 250px;
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+  height: 100vh;
+  position: fixed; /* Keeps sidebar fixed */
+  left: 0;
+  top: 0;
+}
+
+#ad .sidebar h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+#ad .sidebar nav ul {
+  list-style: none;
+}
+
+#ad .sidebar nav ul li {
+  margin: 15px 0;
+}
+
+#ad .sidebar nav ul li a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+#ad .sidebar nav ul li a:hover {
+  background: #34495e;
+}
+
+/* Main Content */
+#ad .main-content {
+  margin-left: 250px; /* Sidebar width */
+  padding: 30px;
+  width: 100%; /* Take up remaining space */
+}
+
+#ad .main-content header {
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Table Section */
+#ad .table-section {
+  background-color: aliceblue;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+#ad .table-section h2 {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+#ad table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#ad table th,
+#ad table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#ad table th {
+  background: #2c3e50;
+  color: white;
+}
+
+#ad table tr:hover {
+  background: #f1f1f1;
+}

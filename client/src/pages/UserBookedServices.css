@@ -1,0 +1,114 @@
+/* Root Colors */
+:root {
+    --primary-color: #9055ee; /* Light violet */
+    --secondary-color: #8e44ad; /* Muted purple */
+    --accent-color: #f39c12; /* Softer yellow */
+    --text-color: #0e0d0d; /* Standard text color */
+    --light-bg: #f9f9f9; /* Light background */
+    --card-shadow: rgba(0, 0, 0, 0.1); /* Subtle card shadow */
+    --font-family: "Poppins", sans-serif;
+}
+
+/* Main Container */
+#user-services-page {
+    width: 90%;
+    margin-left: 160px;
+    margin-top: 120px;
+    max-width: 1200px;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0px 4px 8px var(--card-shadow);
+    border-radius: 10px;
+    font-family: var(--font-family);
+}
+
+/* Header */
+#user-services-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#user-services-header h1 {
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: rgb(40, 40, 116);;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Error Message */
+#user-services-error {
+    color: red;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Table Section */
+#user-services-table-section {
+    padding: 20px;
+}
+
+/* Table */
+#user-services-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--light-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px var(--card-shadow);
+}
+
+/* Table Header */
+.table-header {
+    background: rgb(40, 40, 116);;
+    color: #fff;
+    padding: 15px;
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+/* Table Rows */
+.table-row:nth-child(even) {
+    background: #f2f2f2;
+}
+
+.table-row:hover {
+    background: #a7bbef;
+    color: #fff;
+}
+
+.table-cell {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #user-services-page {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .table-cell {
+        font-size: 14px;
+    }
+
+    #user-services-header h1 {
+        font-size: 2rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

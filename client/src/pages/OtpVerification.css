@@ -1,0 +1,128 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;  /* Fixed missing semicolon */
+    background-color: #f9f9f9;
+    color: #0d0808;
+    overflow-x: hidden;
+}
+
+/* OTP Page Container */
+#otp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* OTP Form Container */
+.otp-container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 255, 0.2);  /* Smoother blue shadow */
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Heading */
+.otp-container h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: rgb(40, 40, 116);
+}
+
+/* Email Message */
+.otp-container p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Success & Error Messages */
+.success {
+    color: green;
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+/* OTP Input Field */
+.otp-container input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Verify Button */
+.otp-container button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: rgb(40, 40, 116);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.otp-container button:hover {
+    background-color: rgb(77, 77, 245);
+}
+
+/* Resend OTP Link */
+.resend-otp {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #777;
+}
+
+.resend-otp a {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.resend-otp a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Countdown Timer (Disabled Link Style) */
+.countdown {
+    color: #888;
+    font-style: italic;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .otp-container {
+        max-width: 100%;
+        padding: 30px;
+    }
+
+    .otp-container h2 {
+        font-size: 1.8rem;
+    }
+
+    .otp-container input[type="text"] {
+        font-size: 1rem;
+    }
+}

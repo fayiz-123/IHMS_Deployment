@@ -1,0 +1,251 @@
+/* Root Colors */
+:root {
+    --primary-color: #7020f1; /* Light violet */
+    --secondary-color: #633ef9; /* Muted purple */
+    --accent-color: #f39c12; /* Softer yellow */
+    --text-color: #333; /* Standard text color */
+    --light-bg: #f9f9f9; /* Light background */
+    --card-shadow: rgba(0, 0, 0, 0.1); /* Subtle card shadow */
+    --font-family: "Poppins", sans-serif;
+}
+
+/* General Styles */
+#about {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    background: #fff;
+    overflow-x: hidden;
+    margin-top: 50px;
+}
+
+/* Hero Section */
+#about #about-introduction {
+    background-color: rgb(40, 40, 116); /* Light violet background */
+    padding: 80px 20px;
+    text-align: center;
+    color: #fff;
+}
+
+#about .hero-section .hero-content h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+#about .hero-section .hero-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 10px auto 20px;
+    border-left: 3px solid #fff;
+    padding-left: 15px;
+}
+
+/* About Details */
+#about #about-details {
+    background-color: var(--light-bg);
+    padding: 60px 20px;
+}
+
+#about .container h2 {
+    font-size: 32px;
+    font-weight: bold;
+    color: rgb(40, 40, 116); /* Light violet for titles */
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#about .container p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    text-align: center;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Features Section */
+#about .features {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+#about .feature {
+    width: 30%;
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px blue;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#about .feature:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+#about .feature h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: rgb(40, 40, 116);
+    margin-bottom: 10px;
+}
+
+#about .feature p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Button Styles */
+#about .animated-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: var(--accent-color); /* Softer yellow for buttons */
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#about .animated-button:hover {
+    background: var(--primary-color); /* Hover effect with light violet */
+    color: #fff;
+}
+
+#about .animated-button .text {
+    margin-right: 10px;
+}
+
+#about .animated-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Contact Us Section */
+#about #contact-us {
+    color: rgb(40, 40, 116);
+    padding: 60px 20px;
+}
+
+#about #contact-us p {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: -80px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    #about .hero-section .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    #about .features {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #about .feature {
+        flex: 1 1 100%; /* Full width for features */
+    }
+
+    #about .newsletter-form input[type="email"] {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+
+    #about .newsletter-form button {
+        width: 80%;
+    }
+}
+
+@media (max-width: 1024px) {
+    #about .container h2 {
+        font-size: 28px;
+    }
+
+    #about .container p {
+        font-size: 1.1rem;
+    }
+
+    #about .feature {
+        width: 48%; /* Two columns */
+    }
+
+    #about .newsletter-form input[type="email"] {
+        width: 75%;
+    }
+
+    #about .newsletter-form button {
+        width: 75%;
+    }
+}
+
+@media (max-width: 768px) {
+    #about .hero-section h1 {
+        font-size: 2.2rem;
+    }
+
+    #about .hero-section .subheading {
+        font-size: 1rem;
+    }
+
+    #about .feature {
+        width: 100%; /* Full width for features */
+    }
+
+    #about .newsletter-form input[type="email"] {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+    #about .newsletter-form button {
+        width: 90%;
+    }
+
+    #about #contact-us p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #about .hero-section h1 {
+        font-size: 1.8rem;
+    }
+
+    #about .hero-section .subheading {
+        font-size: 0.9rem;
+    }
+
+    #about .feature {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    #about .newsletter-form input[type="email"] {
+        width: 100%;
+    }
+
+    #about .newsletter-form button {
+        width: 100%;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

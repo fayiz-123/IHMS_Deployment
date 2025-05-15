@@ -1,0 +1,51 @@
+body {
+    background-color: #f2f2f2;
+    font-family: Arial, sans-serif;
+  }
+
+  #admReg .registration-container {
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+  }
+
+  #admReg h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  #admReg form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #admReg label {
+    margin-top: 10px;
+  }
+
+  #admReg input[type="text"],
+  #admReg input[type="email"],
+  #admReg input[type="password"] {
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: none;
+  }
+
+  #admReg  #register-button {
+    padding: 10px;
+    margin-top: 20px;
+    background-color:  rgb(40, 40, 116);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  #admReg #register-button:hover {
+  background-color: #116A7B; 
+  }
