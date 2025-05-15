@@ -43,7 +43,7 @@ function OtpVerification() {
     setResendMessage("");
 
     try {
-      const response = await axios.post("http://localhost:8000/otp-resend", { email });
+      const response = await axios.post(`${baseApiUrl}/otp-resend`, { email });
 
       if (response.data.success) {
         setResendMessage("A new OTP has been sent to your email.");

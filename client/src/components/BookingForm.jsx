@@ -62,7 +62,7 @@ const BookingForm = () => {
     setErrorMessage('');
 
     try {
-      const response = await axios.post('http://localhost:8000/service/regService', formData, {
+      const response = await axios.post(`${baseApiUrl}/service/regService`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },

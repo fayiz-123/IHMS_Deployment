@@ -68,7 +68,7 @@ function Profile() {
     const requestData = { username, phone };
 
     try {
-      const response = await axios.put("http://localhost:8000/updateProfile", requestData, {
+      const response = await axios.put(`${baseApiUrl}/updateProfile`, requestData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -97,7 +97,7 @@ function Profile() {
 
     try {
       const response = await axios.put(
-        "http://localhost:8000/updateProfile",
+        `${baseApiUrl}/updateProfile`,
         { addresses: [address] }, // Send it as array
         {
           headers: { Authorization: `Bearer ${token}` },

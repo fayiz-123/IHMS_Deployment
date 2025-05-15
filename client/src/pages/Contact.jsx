@@ -59,7 +59,7 @@ function Contact() {
       }
   
       const response = await axios.post(
-        "http://localhost:8000/contact/contact",
+        `${baseApiUrl}/contact/contact`,
         {
           name: userData.name,
           email: userData.email,

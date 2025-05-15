@@ -53,7 +53,7 @@ function UserServices() {
       }
   
       const response = await axios.put(
-        `http://localhost:8000/admin/updateService/${serviceId}`,
+        `${baseApiUrl}/admin/updateService/${serviceId}`,
         { status: newStatus },
         {
           headers: {
