@@ -62,12 +62,13 @@ function UserBookedServices() {
           <tbody>
             {Array.isArray(services) && services.length > 0 ? (
               services.map((service, index) => (
-                <tr key={service._id} className="table-row">
-                  <td className="table-cell">{index + 1}</td>
-                  <td className="table-cell">{service.service}</td> {/* Corrected property name */}
-                  <td className="table-cell">{new Date(service.createdAt).toLocaleDateString()}</td>
-                  <td className="table-cell">{service.status || "Pending"}</td> {/* Corrected property name */}
-                </tr>
+               <tr key={service._id} className="table-row">
+  <td className="table-cell" data-label="ID">{index + 1}</td>
+  <td className="table-cell" data-label="Service Type">{service.service}</td>
+  <td className="table-cell" data-label="Booking Date">{new Date(service.createdAt).toLocaleDateString()}</td>
+  <td className="table-cell" data-label="Status">{service.status || "Pending"}</td>
+</tr>
+
               ))
             ) : (
               <tr className="table-row">
