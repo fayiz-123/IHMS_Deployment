@@ -14,6 +14,9 @@ const serviceRoutes = require('./routes/serviceRoutes')
 const contactRoutes = require('./routes/contactRoutes')
 
 
+app.get('/health',(req,res)=>{
+    res.send('Server is healthy')
+})
 
 
 app.use('/', userRoutes)
