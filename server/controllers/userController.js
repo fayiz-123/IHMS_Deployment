@@ -134,7 +134,7 @@ async function forgotPassword(req,res) {
         userId:user._id
        },process.env.JWT_PASSWORD_RESET_KEY,{expiresIn: '1h'})
        
-       const resetLink = `http://localhost:5173/reset-password/${resetToken}`
+       const resetLink = `https://ihms-deployment-1.onrender.com/reset-password/${resetToken}`
        const username = user.username
        const sendResetMail = await passwordResetGmail(username,email,resetLink);
        if(!sendResetMail){
