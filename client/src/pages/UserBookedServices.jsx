@@ -52,6 +52,7 @@ function UserBookedServices() {
 
         {error && <p id="user-services-error">{error}</p>}
 
+<<<<<<< HEAD
         <section id="user-services-table-section">
           <h2>Booked Services</h2>
           <table id="user-services-table">
@@ -61,6 +62,33 @@ function UserBookedServices() {
                 <th className="table-header">Service Type</th>
                 <th className="table-header">Booking Date</th>
                 <th className="table-header">Status</th>
+=======
+      <section id="user-services-table-section">
+        <h2>Booked Services</h2>
+        <table id="user-services-table">
+          <thead>
+            <tr>
+              <th className="table-header">ID</th>
+              <th className="table-header">Service Type</th>
+              <th className="table-header">Booking Date</th>
+              <th className="table-header">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.isArray(services) && services.length > 0 ? (
+              services.map((service, index) => (
+               <tr key={service._id} className="table-row">
+  <td className="table-cell" data-label="ID">{index + 1}</td>
+  <td className="table-cell" data-label="Service Type">{service.service}</td>
+  <td className="table-cell" data-label="Booking Date">{new Date(service.createdAt).toLocaleDateString()}</td>
+  <td className="table-cell" data-label="Status">{service.status || "Pending"}</td>
+</tr>
+
+              ))
+            ) : (
+              <tr className="table-row">
+                <td colSpan="4" className="table-cell">No booked services found.</td>
+>>>>>>> 23ef63490f48f37bdae92ef45cf56383b44b793d
               </tr>
             </thead>
             <tbody>
