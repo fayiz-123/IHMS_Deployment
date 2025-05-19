@@ -8,28 +8,28 @@ function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
-  
 
-  useEffect(()=>{
+
+  useEffect(() => {
     const fetchUser = async () => {
       const authToken = localStorage.getItem('authToken');
-      if(!authToken){
+      if (!authToken) {
         setUser(null);
         return;
       }
-      
+
 
       try {
-        const response = await axios.get(`${baseApiUrl}/profile`,{
+        const response = await axios.get(`${baseApiUrl}/profile`, {
           headers: {
-            Authorization : `Bearer ${authToken}`   
-            
+            Authorization: `Bearer ${authToken}`
+
           }
-          
+
         })
-       
-        setUser({username:response.data.username})
-        
+
+        setUser({ username: response.data.username })
+
       } catch (error) {
         console.error("Token invalid or user fetch failed:", error);
         // Token might be invalid or expired — log user out
@@ -38,7 +38,7 @@ function Nav() {
       }
     }
     fetchUser()
-  },[])
+  }, [])
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -53,8 +53,12 @@ function Nav() {
         <nav>
           {/* Logo */}
           <div className="logo">
-            <span>I H M S</span>
+            <Link to="/" className="logo-link">
+              <img src="/IHMS.png" alt="IHMS Logo" className="logo-img" />
+              <span>I H M S</span>
+            </Link>
           </div>
+
 
           {/* Mobile Menu Button */}
           <div

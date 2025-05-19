@@ -39,23 +39,24 @@
   margin-left: 20px;
 }
 
+/* ✅ Desktop & Mobile Common Link Style */
 #nav .nav-links a {
-  color: #0d0254;
+  color: white; /* ✅ Changed from dark blue to white for mobile visibility */
   text-decoration: none;
   font-size: 0.9em;
-  transition: color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
   padding: 10px 15px;
   border-radius: 5px;
 }
 
 #nav .nav-links a:hover {
   color: white;
-  background-color: #656589;
+  background-color: #7a7ab1; /* ✅ Light violet for hover */
 }
 
-/* ✅ USERNAME STYLE (Clickable but different from other links) */
+/* ✅ USERNAME STYLE */
 #nav .nav-links .user-link {
-  color: #040469; /* Dark blue */
+  color: white;
   font-size: 1.2em;
   font-weight: bold;
   padding: 0;
@@ -63,12 +64,9 @@
   cursor: pointer;
 }
 
-/* Prevent hover effects on username */
 #nav .nav-links .user-link:hover {
-  color: #040469; /* No color change */
-  background: none; /* No background change */
-  text-decoration: none;
-  cursor: pointer;
+  color: #e0e0ff;
+  background: none;
 }
 
 /* Mobile Menu Icon */
@@ -121,10 +119,13 @@
   top: 0;
 }
 
-/* Mobile Menu Styling */
+/* ✅ Mobile Menu Styling */
+/* You can choose one of these: dark or light */
+
+/* OPTION 1: DARK BACKGROUND (default) */
 #nav .nav-links {
   position: fixed;
-  background: rgba(0, 0, 0, 0.95);
+  background: rgba(0, 0, 0, 0.95); /* ✅ Dark for contrast */
   height: 100vh;
   width: 100%;
   flex-direction: column;
@@ -137,6 +138,44 @@
   z-index: 1000;
   opacity: 0;
   pointer-events: none;
+}
+
+/* OPTIONAL - LIGHT BACKGROUND (Uncomment if you prefer this) */
+/*
+#nav .nav-links {
+  position: fixed;
+  background: #f0f0fa;
+  height: 100vh;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+}
+ */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  object-fit: contain;
 }
 
 #nav .nav-links.nav-active {
@@ -175,7 +214,7 @@
   transform: scale(1.05);
 }
 
-/* Adjustments for larger screens */
+/* Desktop View */
 @media screen and (min-width: 1101px) {
   #nav .nav-links {
     display: flex;
@@ -202,10 +241,20 @@
   }
 
   #nav .nav-links a {
+    color: #0d0254;
     padding: 8px 12px;
     font-size: 0.9em;
   }
-  
+
+  #nav .nav-links a:hover {
+    background-color: #656589;
+    color: white;
+  }
+
+  #nav .nav-links .user-link {
+    color: #040469;
+  }
+
   #nav .nav-links .logout-btn {
     padding: 10px 20px;
     font-size: 1em;

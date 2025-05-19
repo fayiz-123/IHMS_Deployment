@@ -1,114 +1,229 @@
-/* Root Colors */
+/* ---------- THEME VARIABLES ---------- */
 :root {
-    --primary-color: #9055ee; /* Light violet */
-    --secondary-color: #8e44ad; /* Muted purple */
-    --accent-color: #f39c12; /* Softer yellow */
-    --text-color: #0e0d0d; /* Standard text color */
-    --light-bg: #f9f9f9; /* Light background */
-    --card-shadow: rgba(0, 0, 0, 0.1); /* Subtle card shadow */
-    --font-family: "Poppins", sans-serif;
+  --primary-color: #9055ee;
+  --secondary-color: #8e44ad;
+  --accent-color: #f39c12;
+  --text-color: #0e0d0d;
+  --light-bg: #f9f9f9;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+  --font-family: "Poppins", sans-serif;
 }
 
-/* Main Container */
+/* ---------- DESKTOP / TABLE VIEW ---------- */
 #user-services-page {
-    width: 90%;
-    margin-left: 160px;
-    margin-top: 120px;
-    max-width: 1200px;
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0px 4px 8px var(--card-shadow);
-    border-radius: 10px;
-    font-family: var(--font-family);
+  width: 90%;
+  margin-left: 160px;
+  margin-top: 120px;
+  max-width: 1200px;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 8px var(--card-shadow);
+  border-radius: 10px;
+  font-family: var(--font-family);
+  overflow-x: auto;
 }
 
-/* Header */
 #user-services-header {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 #user-services-header h1 {
-    font-size: 2.4rem;
-    font-weight: bold;
-    color: rgb(40, 40, 116);;
-    text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: rgb(40, 40, 116);
+  text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Error Message */
 #user-services-error {
-    color: red;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 20px;
+  color: red;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 20px;
 }
 
-/* Table Section */
 #user-services-table-section {
-    padding: 20px;
+  padding: 20px 0;
 }
 
-/* Table */
 #user-services-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--light-bg);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0px 4px 8px var(--card-shadow);
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--light-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px var(--card-shadow);
+  min-width: 600px;
 }
 
-/* Table Header */
 .table-header {
-    background: rgb(40, 40, 116);;
-    color: #fff;
-    padding: 15px;
-    text-align: left;
-    font-size: 1.1rem;
+  background: rgb(40, 40, 116);
+  color: #fff;
+  padding: 15px;
+  text-align: left;
+  font-size: 1.1rem;
 }
 
-/* Table Rows */
 .table-row:nth-child(even) {
-    background: #f2f2f2;
+  background: #f2f2f2;
 }
 
 .table-row:hover {
-    background: #a7bbef;
-    color: #fff;
+  background: #a7bbef;
+  color: #fff;
 }
 
 .table-cell {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    color: var(--text-color);
-    font-size: 1rem;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  color: var(--text-color);
+  font-size: 1rem;
+  white-space: nowrap;
 }
 
-/* Responsive Design */
+/* ---------- TABLET ADJUST ---------- */
+@media (max-width: 1024px) {
+  #user-services-page {
+    margin-left: 0;
+    margin-top: 80px;
+    width: 95%;
+    padding: 15px;
+  }
+  #user-services-table {
+    min-width: 100%;
+  }
+  .table-header,
+  .table-cell {
+    font-size: 0.9rem;
+    padding: 10px 8px;
+  }
+  #user-services-header h1 {
+    font-size: 2rem;
+  }
+}
+
+/* ---------- MOBILE CARD VIEW ≤ 768px ---------- */
 @media (max-width: 768px) {
-    #user-services-page {
-        width: 100%;
-        padding: 10px;
-    }
+  /* hide classic header */
+  #user-services-table thead {
+    display: none;
+  }
 
-    .table-cell {
-        font-size: 14px;
-    }
+  /* stack */
+  #user-services-table,
+  #user-services-table tbody,
+  #user-services-table tr,
+  #user-services-table td {
+    display: block;
+    width: 100%;
+  }
 
-    #user-services-header h1 {
-        font-size: 2rem;
-    }
+  /* card */
+  #user-services-table tr.table-row {
+    background: #fff;
+    margin: 0 0 16px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px var(--card-shadow);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #user-services-table tr.table-row:hover {
+    background: #f2f6ff;
+    box-shadow: 0 4px 12px rgba(40, 40, 116, 0.25);
+  }
+
+  /* default cell grid (label | value) */
+  #user-services-table td.table-cell {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 0 12px;
+    align-items: center;
+    padding: 14px 18px;
+    font-size: 1rem;
+    border: 0;
+    border-bottom: 1px solid #ececec;
+    white-space: normal;
+  }
+  #user-services-table tr.table-row td.table-cell:last-child {
+    border-bottom: none;
+  }
+
+  #user-services-table td.table-cell::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: rgb(40, 40, 116);
+  }
+
+  /* value area */
+  #user-services-table td.table-cell {
+    font-weight: 400;
+    color: var(--text-color);
+  }
+
+  /* ----- Status row rendered as FLEX for perfect align ----- */
+  #user-services-table td.table-cell[data-label="Status"] {
+    display: flex;               /* override grid for this one */
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: transparent;          /* hides raw text */
+  }
+
+  #user-services-table td.table-cell[data-label="Status"]::before {
+    content: "Status";
+    color: rgb(40, 40, 116);
+  }
+
+  #user-services-table td.table-cell[data-label="Status"]::after {
+    content: attr(data-value);
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    background: var(--primary-color);
+    color: #fff;
+    font-size: 0.82rem;
+    line-height: 1;
+  }
 }
 
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* ---------- ULTRA-SMALL PHONES ≤ 480px ---------- */
+@media (max-width: 480px) {
+  #user-services-table td.table-cell {
+    grid-template-columns: 110px 1fr;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+/* ---------- SHARED ENHANCEMENTS ---------- */
+#user-services-table {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) transparent;
+}
+#user-services-table::-webkit-scrollbar {
+  height: 8px;
+}
+#user-services-table::-webkit-scrollbar-track {
+  background: transparent;
+}
+#user-services-table::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 4px;
+}
+
+#user-services-table thead th {
+  position: sticky;
+  top: 0;
+  background: rgb(40, 40, 116);
+  z-index: 10;
+}
+
+.table-row {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.table-row:hover {
+  box-shadow: 0 2px 8px rgba(40, 40, 116, 0.3);
 }
