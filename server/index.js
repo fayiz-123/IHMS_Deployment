@@ -9,6 +9,7 @@ const cors = require('cors')
 app.use(cookieParser())
 const allowedOrigins = [
   'http://localhost:5173',
+ ' https://ihms.vercel.app',
   'https://ihms-adminpanel.vercel.app'
 ];
 

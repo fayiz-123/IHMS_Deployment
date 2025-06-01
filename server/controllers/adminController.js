@@ -36,14 +36,12 @@ async function adminRegistration(req, res) {
         secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
-      return res
-        .status(200)
-        .json({
-          success: true,
-          message: "New Admin Registered SuccessFully",
-          saveAdmin,
-          token,
-        });
+      return res.status(200).json({
+        success: true,
+        message: "New Admin Registered SuccessFully",
+        saveAdmin,
+        token,
+      });
     }
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -78,17 +76,16 @@ async function adminLoggedIn(req, res) {
       );
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        secure: true, // true for HTTPS domains
+        sameSite: "None", // 'None' is required when using cross-origin cookies
+        maxAge: 7 * 24 * 60 * 60 * 1000  // 7 Days
       });
-      res
-        .status(200)
-        .json({
-          success: true,
-          message: "Admin LoggedIn Successfull",
-          token: token,
-          adminName: checkAdmin.name,
-        });
+      res.status(200).json({
+        success: true,
+        message: "Admin LoggedIn Successfull",
+        token: token,
+        adminName: checkAdmin.name,
+      });
     }
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
@@ -113,16 +110,18 @@ async function getProfile(req, res) {
 
 //AdminLogout
 
-async function Logout(req,res) {
-    try {
-        res.clearCookie('token',{
-            httpOnly:true,
-            secure:false
-        })
-      return res.status(200).json({success:true,error:false,message:"Logout Successfully"})
-    } catch (error) {
-         return res.status(500).json({ success: false, message: error.message });
-    }
+async function Logout(req, res) {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: false,
+    });
+    return res
+      .status(200)
+      .json({ success: true, error: false, message: "Logout Successfully" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
 }
 
 //gettingUsers
@@ -177,13 +176,11 @@ async function contactMessages(req, res) {
         .status(400)
         .json({ success: false, message: "No contactMessages Found" });
     }
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: "All Contact Messages",
-        contactMessages,
-      });
+    return res.status(200).json({
+      success: true,
+      message: "All Contact Messages",
+      contactMessages,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
