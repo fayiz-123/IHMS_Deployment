@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 
 const allowedOrigins = [
-  'http://localhost:5173',
+  'http://localhost:5174',
   'https://ihms.vercel.app',
   'https://ihms-adminpanel.vercel.app'
 ];
@@ -18,14 +18,20 @@ app.use(cookieParser())
 app.use(cors({
   origin: function (origin, callback) {
     console.log("Incoming origin:", origin);
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
+
+    // If no origin (like curl or same-origin request), fallback to your frontend origin
+    if (!origin) {
+      // set default origin (your main frontend URL)
+      return callback(null, 'https://ihms-adminpanel.vercel.app');
     }
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, origin);
+    }
+    callback(new Error('Not allowed by CORS'));
   },
-  credentials:true
+  credentials: true
 }));
+
 
 
 const userRoutes = require('./routes/userRoutes')
