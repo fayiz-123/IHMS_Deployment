@@ -33,8 +33,8 @@ async function adminRegistration(req, res) {
       );
       res.cookie("token", token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "None",
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
       return res.status(200).json({
@@ -77,8 +77,8 @@ async function adminLoggedIn(req, res) {
       );
       res.cookie("token", token, {
         httpOnly: true,
-        secure: true, // true for HTTPS domains
-        sameSite: "None", // 'None' is required when using cross-origin cookies
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
         maxAge: 7 * 24 * 60 * 60 * 1000  // 7 Days
       });
       res.status(200).json({
