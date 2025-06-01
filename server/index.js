@@ -6,10 +6,10 @@ const mongoose = require('mongoose')
 mongoose.connect(process.env.MONGO_URL)
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-app.use(cookieParser())
+
 const allowedOrigins = [
   'http://localhost:5173',
- ' https://ihms.vercel.app',
+  'https://ihms.vercel.app',
   'https://ihms-adminpanel.vercel.app'
 ];
 
@@ -17,6 +17,7 @@ app.use(cookieParser())
 
 app.use(cors({
   origin: function (origin, callback) {
+    console.log("Incoming origin:", origin);
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
