@@ -21,8 +21,7 @@ async function signup(req, res) {
         }
         else {
             const hashedPassword = await bcrypt.hash(password, 10)   
-            const otp = generateOtp(); 
-           
+            const otp = generateOtp();
             
             const newUser = new User({
                 username: username, email: email, password: hashedPassword, phone:phone,otp:otp,isVerified:false })
@@ -103,6 +102,8 @@ async function login(req, res) {
             userID:existUser._id
         },process.env.JWT_SECRET,{expiresIn:'14d'})
 
+        existUser.lastLogin = new Date()
+        await existUser.save()
 
         res.status(200).json({success: true, token,username:existUser.username })
         const username = existUser.username

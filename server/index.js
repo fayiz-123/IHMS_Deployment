@@ -4,8 +4,26 @@ app.use(express.json())
 require('dotenv').config()
 const mongoose = require('mongoose')
 mongoose.connect(process.env.MONGO_URL)
+const cookieParser = require('cookie-parser')
 const cors = require('cors')
-app.use(cors())
+app.use(cookieParser())
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://ihms-adminpanel.vercel.app'
+];
+
+app.use(cookieParser())
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials:true
+}));
 
 
 const userRoutes = require('./routes/userRoutes')

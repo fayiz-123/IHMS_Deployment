@@ -4,8 +4,8 @@ require('dotenv').config()
 
 const verifyAdmin = async (req, res, next) => {
     try {
-        const authHeader = req.headers.authorization;
-        const token = authHeader && authHeader.split(' ')[1];
+       
+        const token = req.cookies.token
 
         if (!token) {
             return res.status(401).json({ message: 'No token provided' });
@@ -17,7 +17,7 @@ const verifyAdmin = async (req, res, next) => {
         if (!admin) {
             return res.status(403).json({ message: 'Access Denied! Not an admin' });
         }
-
+        adminId = decoded.adminId 
         req.admin = admin; 
         next(); 
     

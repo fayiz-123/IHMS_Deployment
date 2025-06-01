@@ -52,6 +52,10 @@ const userSchema = new mongoose.Schema({
     isFirstLoggedIn:{
         type:Boolean,
         default:true
+    },
+    lastLogin:{
+        type:Date, 
+        default:true    
     }
 
 }, { timestamps: true })
