@@ -18,20 +18,14 @@ app.use(cookieParser())
 app.use(cors({
   origin: function (origin, callback) {
     console.log("Incoming origin:", origin);
-
-    // If no origin (like curl or same-origin request), fallback to your frontend origin
-    if (!origin) {
-      // set default origin (your main frontend URL)
-      return callback(null, 'https://ihms-adminpanel.vercel.app');
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'));
     }
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, origin);
-    }
-    callback(new Error('Not allowed by CORS'));
   },
-  credentials: true
+  credentials:true
 }));
-
 
 
 const userRoutes = require('./routes/userRoutes')
