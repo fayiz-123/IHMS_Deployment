@@ -78,9 +78,9 @@ async function adminLoggedIn(req, res) {
       );
       res.cookie("token", token, {
         httpOnly: true,
-        secure: true, // must be true in production
-        sameSite: "None", // must be 'None' if frontend and backend are different domains
-        path: "/",
+        secure: false, // must be true in production
+       // must be 'None' if frontend and backend are different domains
+      
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       });
       res.status(200).json({

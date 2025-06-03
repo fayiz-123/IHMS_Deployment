@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import './ResetPassword.css';
 
@@ -11,6 +11,7 @@ const ResetPassword = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate()
   const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
 
   const handleSubmit = async (e) => {
@@ -26,6 +27,8 @@ const ResetPassword = () => {
       );
       setMessage(response.data.message);
       setSuccess(true); // ✅ Hide form on success
+      navigate('/login')
+      
     } catch (error) {
       setMessage(
         error.response?.data?.message || "Something went wrong. Try again."

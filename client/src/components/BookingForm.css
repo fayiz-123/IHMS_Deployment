@@ -54,7 +54,7 @@
 
 #book form .submit-button {
   padding: 14px 35px;
-  background-color:rgb(40, 40, 116);
+  background-color: rgb(40, 40, 116);
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
@@ -62,7 +62,9 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-top: 30px; /* <-- Add this line */
 }
+
 
 #book form .submit-button:hover {
   background-color: #083d72;
