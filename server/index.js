@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 
 const allowedOrigins = [
+  'http://localhost:5173',
   'http://localhost:5174',
   'https://ihms.vercel.app',
   'https://ihms-adminpanel.vercel.app'
@@ -17,7 +18,6 @@ app.use(cookieParser())
 
 app.use(cors({
   origin: function (origin, callback) {
-    console.log("Incoming origin:", origin);
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true)
     } else {

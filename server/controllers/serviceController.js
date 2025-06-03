@@ -25,17 +25,18 @@ async function bookService(req,res) {
         const saveService = await newService.save()
         const username = user.username
         const bookingId = saveService._id
-        const Dates = new Date();
-        const formattedDate = Dates.toLocaleString('en-US', {
-            weekday: 'long',  
-            year: 'numeric',  
-            month: 'long',    
-            day: 'numeric',   
-            hour: '2-digit',  
-            minute: '2-digit',
-            hour12: true      
-        });
-        const bookingDate = formattedDate;
+       const Dates = new Date();
+const formattedDate = Dates.toLocaleString('en-US', {
+    timeZone: 'Asia/Kolkata',
+    weekday: 'long',  
+    year: 'numeric',  
+    month: 'long',    
+    day: 'numeric',   
+    hour: '2-digit',  
+    minute: '2-digit',
+    hour12: true      
+});
+const bookingDate = formattedDate;
         
         const serviceName = service
         

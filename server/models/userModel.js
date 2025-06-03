@@ -21,9 +21,6 @@ const userSchema = new mongoose.Schema({
         required:[true,"Phone Number is required"]
     },
     addresses:[{
-        id:{
-        type:mongoose.Schema.Types.ObjectId,
-        },
         addressLine:{
             type:String
         },
@@ -55,7 +52,6 @@ const userSchema = new mongoose.Schema({
     },
     lastLogin:{
         type:Date, 
-        default:true    
     }
 
 }, { timestamps: true })

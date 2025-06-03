@@ -35,7 +35,7 @@ async function adminRegistration(req, res) {
         httpOnly: true,
         secure: true, // must be true in production
         sameSite: "None", // must be 'None' if frontend and backend are different domains
-        path:'/',
+        path: "/",
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       });
       return res.status(200).json({
@@ -80,7 +80,7 @@ async function adminLoggedIn(req, res) {
         httpOnly: true,
         secure: true, // must be true in production
         sameSite: "None", // must be 'None' if frontend and backend are different domains
-        path:'/',
+        path: "/",
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       });
       res.status(200).json({
@@ -218,6 +218,7 @@ async function UpdateServices(req, res) {
     } = service;
     const Dates = new Date();
     const formattedDate = Dates.toLocaleString("en-US", {
+      timeZone: "Asia/Kolkata",
       weekday: "long",
       year: "numeric",
       month: "long",
