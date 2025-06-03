@@ -144,7 +144,7 @@ async function UserServices(req, res) {
   try {
     const { userId } = req.params;
 
-    const userServices = await Service.find({ userId });
+    const userServices = await Service.find({ userId }).createdAt(-1);
 
     if (!userServices) {
       return res
@@ -160,7 +160,7 @@ async function UserServices(req, res) {
 //bookedServices
 async function bookedServices(req, res) {
   try {
-    const allBookings = await Service.find();
+    const allBookings = await Service.find().createdAt(-1);
     res
       .status(200)
       .json({ success: true, message: "All BookedServices Are", allBookings });
