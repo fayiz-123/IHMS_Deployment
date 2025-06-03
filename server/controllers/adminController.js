@@ -160,10 +160,10 @@ async function UserServices(req, res) {
 //bookedServices
 async function bookedServices(req, res) {
   try {
-    const allServices = await Service.find();
+    const allBookings = await Service.find();
     res
       .status(200)
-      .json({ success: true, message: "All BookedServices Are", allServices });
+      .json({ success: true, message: "All BookedServices Are", allBookings });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
