@@ -317,9 +317,12 @@ async function profileUpdate(req, res) {
     }
     if (username) user.username = username;
     if (phone) user.phone = phone;
+
+    await user.save()
+
     return res
       .status(200)
-      .json({ success: true, message: "profile Updated Successfully", user });
+      .json({ success: true, message: "Profile Updated Successfully", user });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
