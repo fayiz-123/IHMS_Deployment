@@ -1,3 +1,4 @@
+/* ===== NAVBAR WRAPPER ===== */
 #nav header {
   position: fixed;
   top: 0;
@@ -8,68 +9,111 @@
   border-bottom: 2px solid rgb(71, 71, 137);
 }
 
+/* ===== NAV CONTAINER ===== */
 #nav nav {
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   padding: 10px 5%;
 }
 
+/* ===== LOGO SECTION ===== */
 #nav .logo {
-  color: var(--accent-color);
-  font-size: 3.5em;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-right: auto;
-}
-
-#nav .logo span {
-  color: #040469;
-}
-
-/* Navigation Links */
-#nav .nav-links {
-  list-style: none;
   display: flex;
   align-items: center;
 }
 
-#nav .nav-links li {
-  margin-left: 20px;
+#nav .logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
 }
 
-/* ✅ Desktop & Mobile Common Link Style */
+#nav .logo-img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  object-fit: contain;
+}
+
+#nav .logo span {
+  color: #040469;
+  font-size: 1.5em;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* ===== NAV LINKS ===== */
+#nav .nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+#nav .nav-links li {
+  margin: 0;
+}
+
 #nav .nav-links a {
-  color: white; /* ✅ Changed from dark blue to white for mobile visibility */
+  color: #0d0254;
   text-decoration: none;
   font-size: 0.9em;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  padding: 10px 15px;
+  padding: 8px 12px;
   border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #nav .nav-links a:hover {
   color: white;
-  background-color: #7a7ab1; /* ✅ Light violet for hover */
+  background-color: #7a7ab1;
 }
 
-/* ✅ USERNAME STYLE */
-#nav .nav-links .user-link {
-  color: white;
-  font-size: 1.2em;
-  font-weight: bold;
-  padding: 0;
+/* ===== PROFILE SECTION (DESKTOP RIGHT) ===== */
+#nav .profile-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#nav .profile-right .user-link {
+  display: flex;
+  align-items: center;
   text-decoration: none;
+  color: #040469;
+  font-weight: 500;
   cursor: pointer;
 }
 
-#nav .nav-links .user-link:hover {
-  color: #e0e0ff;
-  background: none;
+#nav .profile-right .username {
+  font-size: 0.95em;
+  margin-right: 10px;
+  color: #040469;
 }
 
-/* Mobile Menu Icon */
+#nav .profile-right .profile-image {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #040469;
+}
+
+#nav .profile-right .user-link:hover .username {
+  color: #ffffff;
+  background-color: #7a7ab1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+/* ===== MOBILE MENU ICON ===== */
 #nav .menu-icon {
   display: none;
   cursor: pointer;
@@ -119,144 +163,98 @@
   top: 0;
 }
 
-/* ✅ Mobile Menu Styling */
-/* You can choose one of these: dark or light */
+/* ===== MOBILE DROPDOWN NAVIGATION ===== */
+@media screen and (max-width: 1100px) {
+  #nav nav {
+    grid-template-columns: 1fr auto;
+  }
 
-/* OPTION 1: DARK BACKGROUND (default) */
-#nav .nav-links {
-  position: fixed;
-  background: rgba(0, 0, 0, 0.95); /* ✅ Dark for contrast */
-  height: 100vh;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  z-index: 1000;
-  opacity: 0;
-  pointer-events: none;
+  #nav .nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  #nav .nav-links.nav-active {
+    transform: translateX(0%);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #nav .nav-links a {
+    font-size: 1.2em;
+    color: white;
+  }
+
+  #nav .menu-icon {
+    display: block;
+  }
+
+  #nav .profile-right {
+    display: none;
+  }
+
+  /* Show profile inside menu */
+  #nav .nav-links .mobile-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  #nav .mobile-profile .user-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+  }
+
+  #nav .mobile-profile .username {
+    font-size: 1em;
+    margin-top: 6px;
+    color: white;
+  }
+
+  #nav .mobile-profile .profile-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+  }
 }
 
-/* OPTIONAL - LIGHT BACKGROUND (Uncomment if you prefer this) */
-/*
-#nav .nav-links {
-  position: fixed;
-  background: #f0f0fa;
-  height: 100vh;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  z-index: 1000;
-  opacity: 0;
-  pointer-events: none;
-}
- */
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo-link {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
-}
-
-.logo-img {
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-  object-fit: contain;
-}
-
-#nav .nav-links.nav-active {
-  transform: translateX(0%);
-  opacity: 1;
-  pointer-events: auto;
-}
-
-#nav .nav-links li {
-  margin: 15px 0;
-}
-
-#nav .nav-links a {
-  font-size: 1em;
-}
-
-/* Ensure the menu icon is always visible on mobile */
-#nav .menu-icon {
-  display: block;
-  margin-left: auto;
-}
-
-/* Logout button style */
-#nav .nav-links .logout-btn {
-  background-color: #040469;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 1em;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-#nav .nav-links .logout-btn:hover {
-  background-color: #656589;
-  transform: scale(1.05);
-}
-
-/* Desktop View */
+/* ===== DESKTOP VIEW RESET ===== */
 @media screen and (min-width: 1101px) {
   #nav .nav-links {
-    display: flex;
+    flex-direction: row;
     position: relative;
     height: auto;
     width: auto;
-    flex-direction: row;
     background: transparent;
-    justify-content: flex-end;
-    align-items: center;
-    top: 0;
     transform: none;
     opacity: 1;
     pointer-events: auto;
-    transition: none;
   }
 
   #nav .menu-icon {
     display: none;
   }
 
-  #nav .nav-links li {
-    margin-left: 15px;
-  }
-
-  #nav .nav-links a {
-    color: #0d0254;
-    padding: 8px 12px;
-    font-size: 0.9em;
-  }
-
-  #nav .nav-links a:hover {
-    background-color: #656589;
-    color: white;
-  }
-
-  #nav .nav-links .user-link {
-    color: #040469;
-  }
-
-  #nav .nav-links .logout-btn {
-    padding: 10px 20px;
-    font-size: 1em;
+  #nav .mobile-profile {
+    display: none !important;
   }
 }

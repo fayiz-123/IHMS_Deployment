@@ -15,26 +15,40 @@ const ResetPassword = () => {
   const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (newPassword !== confirmPassword) {
-      setMessage("Passwords do not match");
-      return;
-    }
-    try {
-      const response = await axios.post(
-        `${baseApiUrl}/reset-password/${token}`,
-        { newPassword }
-      );
-      setMessage(response.data.message);
-      setSuccess(true); // ✅ Hide form on success
-      navigate('/login')
-      
-    } catch (error) {
-      setMessage(
-        error.response?.data?.message || "Something went wrong. Try again."
-      );
-    }
-  };
+  e.preventDefault();
+
+  // Check if passwords match
+  if (newPassword !== confirmPassword) {
+    setMessage("Passwords do not match");
+    return;
+  }
+
+  try {
+    // Send new password to the backend
+    const response = await axios.post(
+      `${baseApiUrl}/reset-password/${token}`,
+      { newPassword }
+    );
+
+    // Set success message
+    setMessage(response.data.message);
+    setSuccess(true);
+
+    
+
+    // Redirect to login after 4 seconds
+    setTimeout(() => {
+      navigate('/login');
+    }, 3000);
+
+  } catch (error) {
+    // Handle errors from backend
+    setMessage(
+      error.response?.data?.message || "Something went wrong. Try again."
+    );
+  }
+};
+
 
   return (
     <div id="reset-password">

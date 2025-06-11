@@ -6,6 +6,10 @@ const mongoose = require('mongoose')
 mongoose.connect(process.env.MONGO_URL)
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 
 const allowedOrigins = [
   'http://localhost:5173',

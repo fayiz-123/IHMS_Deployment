@@ -1,3 +1,4 @@
+// Profile.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Profile.css";
@@ -6,51 +7,54 @@ import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  window.scrollTo(0, 0);
   const [username, setUserName] = useState("");
   const [phone, setPhone] = useState("");
-  const [addresses, setAddresses] = useState([]); // array of addresses
+  const [addresses, setAddresses] = useState([]);
   const [newAddress, setNewAddress] = useState({
     addressLine: "",
     city: "",
     state: "",
     postalCode: "",
   });
+  const [profilePic, setProfilePic] = useState("");
+  const [preview, setPreview] = useState(null);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
   const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
 
-  const fetchUserProfile = async () => {
-  try {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      setError("User not authenticated.");
-      setTimeout(() => {
-        navigate("/");
-      }, 400);
-      return;
-    }
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          setError("User not authenticated.");
+          setTimeout(() => navigate("/"), 400);
+          return;
+        }
 
-    const response = await axios.get(`${baseApiUrl}/profile`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+        const { data } = await axios.get(`${baseApiUrl}/profile`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-    if (response.data.success) {
-      setUserName(response.data.userProfile.username);
-      setPhone(response.data.userProfile.phone || "");
-      setAddresses(response.data.userProfile.addresses || []);
-    } else {
-      setError("Failed to fetch user details.");
-    }
-  } catch (err) {
-    setError(err.response?.data?.message || "An error occurred.");
-  }
-};
+        if (data.success) {
+          const user = data.userProfile;
+          setUserName(user.username);
+          setPhone(user.phone || "");
+          setAddresses(user.addresses || []);
+          setProfilePic(user.profilePic || "");
+        } else {
+          setError("Failed to fetch user details.");
+        }
+      } catch (err) {
+        setError(err.response?.data?.message || "An error occurred.");
+      }
+    };
 
-useEffect(() => {
-  fetchUserProfile();
-}, []);
-
+    fetchUserProfile();
+  }, [navigate, baseApiUrl]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -59,142 +63,227 @@ useEffect(() => {
 
     const token = localStorage.getItem("authToken");
     if (!token) {
-      setError("Unauthorized: Please log in again.");
+      setError("Unauthorized. Please log in again.");
       return;
     }
 
-    const requestData = { username, phone };
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("phone", phone);
+    if (preview) formData.append("profilePic", preview);
 
     try {
-      const response = await axios.put(
+      const { data } = await axios.put(
         `${baseApiUrl}/updateProfile`,
-        requestData,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (data.success) {
+        setSuccess(data.message);
+        setProfilePic(data.user.profilePic);
+        setTimeout(() => navigate("/"), 2000);
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Profile update failed.");
+    }
+  };
+
+  //handleFileChange -- AddProfilePicture
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (!allowedTypes.includes(file.type)) {
+      alert("Only JPG, JPEG, and PNG files are allowed!");
+      return;
+    }
+
+    setUploading(true);
+    setPreview(file); // Preview for UX
+
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      alert("Unauthorized. Please log in again.");
+      setUploading(false);
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("pic", file);
+
+    try {
+      const { data } = await axios.put(
+        `${baseApiUrl}/profile-photo`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (data.success) {
+        setProfilePic(data.user.profilePic);
+        setPreview(null);
+        alert("✅ Profile picture uploaded successfully.");
+      } else {
+        alert("❌ Image upload failed.");
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || "❌ Failed to upload image.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  //Delete ProfilePicture
+  const handleDeleteProfilePic = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      alert("Unauthorized. Please log in again.");
+      return;
+    }
+
+    setUploading(true);
+
+    try {
+      const { data } = await axios.delete(
+        `${baseApiUrl}/profile-photo/delete`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      if (response.data.success) {
-        setSuccess(response.data.message);
-        setTimeout(() => navigate("/"), 2000);
+      if (data.success) {
+        setProfilePic("");
+        setPreview(null);
+        alert("🗑️ Profile picture removed.");
+      } else {
+        alert("❌ Failed to delete profile picture.");
       }
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Profile update failed. Please try again."
+      alert(
+        err.response?.data?.message || "❌ Error deleting profile picture."
       );
+    } finally {
+      setUploading(false);
     }
   };
+
+  //addnewAddress
 
   const handleNewAddressChange = (field, value) => {
     setNewAddress((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleAddNewAddress = async () => {
-    setError("");
-    setSuccess("");
-
     const token = localStorage.getItem("authToken");
     if (!token) {
-      setError("Unauthorized: Please log in again.");
+      alert("Unauthorized.");
       return;
     }
 
-    if (
-      !newAddress.addressLine ||
-      !newAddress.city ||
-      !newAddress.state ||
-      !newAddress.postalCode
-    ) {
-      setError("All address fields are required.");
+    const { addressLine, city, state, postalCode } = newAddress;
+    if (!addressLine || !city || !state || !postalCode) {
+      alert("All address fields are required.");
       return;
     }
 
     if (addresses.length >= 3) {
-      setError("Only 3 addresses are allowed.");
+      alert("Maximum of 3 addresses allowed.");
       return;
     }
 
     try {
-      const response = await axios.post(
+      const { data } = await axios.post(
         `${baseApiUrl}/addAddress`,
-        {
-          ...newAddress,
-        },
+        newAddress,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      if (response.data.success) {
-        setSuccess("Address added successfully.");
-        setAddresses(response.data.user.addresses || []);
-        setNewAddress({
-          addressLine: "",
-          city: "",
-          state: "",
-          postalCode: "",
-        });
+      if (data.success) {
+        alert("Address added.");
+        setAddresses(data.user.addresses || []);
+        setNewAddress({ addressLine: "", city: "", state: "", postalCode: "" });
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Address add failed.");
+      alert(err.response?.data?.message || "Address add failed.");
     }
   };
 
   const handleSetPrimary = async (addressId) => {
-    setError("");
-    setSuccess("");
-
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      setError("Unauthorized: Please log in again.");
-      return;
-    }
-
     try {
-      // Assuming backend API to set primary address by address index or id
-      const response = await axios.put(
+      const token = localStorage.getItem("authToken");
+      const { data } = await axios.put(
         `${baseApiUrl}/setPrimaryAddress`,
         { addressId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (data.success) setAddresses(data.user.addresses || []);
+    } catch (err) {
+      setError("Failed to set primary address.");
+    }
+  };
+
+  const handleRemoveAddress = async (addressId) => {
+    try {
+      const token = localStorage.getItem("authToken");
+
+      const { data } = await axios.delete(
+        `${baseApiUrl}/deleteAddress/${addressId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      if (response.data.success) {
-        setAddresses(response.data.user.addresses || []);
+      if (data.success) {
+        // Delay success message
+        setTimeout(async () => {
+          setSuccess("Address removed.");
+
+          // Re-fetch updated addresses to reflect new primary
+          const refreshed = await axios.get(`${baseApiUrl}/profile`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          if (refreshed.data.success) {
+            setAddresses(refreshed.data.userProfile.addresses || []);
+          }
+        }, 300); // Delay of 300ms (adjust as needed)
       }
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Failed to update primary address."
-      );
+      setError("Failed to remove address.");
     }
   };
 
-  const handleRemoveAddress = async (addressId) => {
-  setError("");
-  setSuccess("");
+  useEffect(() => {
+    if (success || error) {
+      const timer = setTimeout(() => {
+        setSuccess("");
+        setError("");
+      }, 3000); // Clear after 3 seconds
 
-  const token = localStorage.getItem("authToken");
-  if (!token) {
-    setError("Unauthorized: Please log in again.");
-    return;
-  }
-
-  try {
-    const response = await axios.delete(`${baseApiUrl}/deleteAddress/${addressId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (response.data.success) {
-      setSuccess("Address removed.");
-      await fetchUserProfile(); // now works fine since it’s outside useEffect
+      return () => clearTimeout(timer); // Cleanup
     }
-  } catch (err) {
-    setError(err.response?.data?.message || "Failed to remove address.");
-  }
-};
+  }, [success, error]);
 
+  const handleLogout = () => {
+    alert("You Are Logged Out");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("username");
+    navigate("/login");
+  };
 
   return (
     <>
@@ -202,80 +291,124 @@ useEffect(() => {
       <div id="profile-update">
         <div className="wrapper profile-update">
           <div className="container">
+            {/* LEFT SECTION: PROFILE PICTURE */}
             <div className="col-left">
               <div className="update-text">
-                <h2>Update Your Profile</h2>
-                <p>Keep your information up-to-date for a better experience.</p>
+                <h2>Your Profile</h2>
+                <p>Keep your account details updated.</p>
+                <div className="profile-pic-container">
+                  <img
+                    src={
+                      preview
+                        ? URL.createObjectURL(preview)
+                        : profilePic
+                        ? `${baseApiUrl}${profilePic}`
+                        : "https://www.w3schools.com/howto/img_avatar.png"
+                    }
+                    alt="Profile"
+                    className="profile-pic"
+                  />
+
+                  {uploading ? (
+                    <p className="loading-text">Uploading...</p>
+                  ) : (
+                    <>
+                      <label
+                        htmlFor="profilePicUpload"
+                        className="upload-label"
+                      >
+                        {preview || profilePic
+                          ? "Change Image"
+                          : "Upload Image"}
+                      </label>
+                      <input
+                        type="file"
+                        id="profilePicUpload"
+                        onChange={handleFileChange}
+                        accept="image/*"
+                        hidden
+                      />
+                      {(profilePic || preview) && (
+                        <button
+                          className="delete-btn"
+                          onClick={handleDeleteProfilePic}
+                        >
+                          Delete Image
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
+
+            {/* RIGHT SECTION: FORM */}
             <div className="col-right">
               <div className="update-form">
-                <h2>Profile Update</h2>
+                <h2>Update Info</h2>
                 {success && <p className="success">{success}</p>}
                 {error && <p className="error">{error}</p>}
-
                 <form onSubmit={handleUpdate}>
                   <p>
-                    <label>
-                      Full Name<span>*</span>
-                    </label>
+                    <label>Full Name</label>
                     <input
                       type="text"
-                      placeholder="Full Name"
                       value={username}
                       onChange={(e) => setUserName(e.target.value)}
                       required
                     />
                   </p>
-
                   <p>
-                    <label>
-                      Phone Number<span>*</span>
-                    </label>
+                    <label>Phone Number</label>
                     <input
                       type="text"
-                      placeholder="Phone Number"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       required
                     />
                   </p>
-
                   <p>
                     <input type="submit" value="Update Profile Info" />
                   </p>
                 </form>
 
+                {/* Address Section */}
                 <div className="address-section">
                   <label>Saved Addresses</label>
-
                   {addresses.length === 0 && <p>No addresses saved yet.</p>}
 
-                  {addresses.map((addr, idx) => (
+                  {addresses.map((addr) => (
                     <div
                       key={addr._id}
                       className={`address-card ${
                         addr.primary ? "primary-address" : ""
                       }`}
                     >
-                      <div className="display-field">
-                        <strong>Address Line:</strong> {addr.addressLine}
-                      </div>
-                      <div className="display-field">
-                        <strong>City:</strong> {addr.city}
-                      </div>
-                      <div className="display-field">
-                        <strong>State:</strong> {addr.state}
-                      </div>
-                      <div className="display-field">
-                        <strong>Postal Code:</strong> {addr.postalCode}
+                      <div className="address-details">
+                        <div className="field">
+                          <label>Address Line:</label>
+                          <span>{addr.addressLine}</span>
+                        </div>
+                        <div className="field">
+                          <label>City:</label>
+                          <span>{addr.city}</span>
+                        </div>
+                        <div className="field">
+                          <label>State:</label>
+                          <span>{addr.state}</span>
+                        </div>
+                        <div className="field">
+                          <label>Postal Code:</label>
+                          <span>
+                            {addr.postalCode.toString().padStart(6, "0")}
+                          </span>
+                        </div>
                       </div>
 
                       <div className="address-buttons">
                         {!addr.primary && (
                           <button
                             className="add-btn"
-                            type="button"
                             onClick={() => handleSetPrimary(addr._id)}
                           >
                             Make Primary
@@ -283,7 +416,6 @@ useEffect(() => {
                         )}
                         <button
                           className="remove-btn"
-                          type="button"
                           onClick={() => handleRemoveAddress(addr._id)}
                         >
                           Remove
@@ -296,62 +428,35 @@ useEffect(() => {
                     <>
                       <label>Add New Address</label>
                       <div className="address-card">
-                        <div className="single-field">
-                          <label>Address Line</label>
-                          <input
-                            type="text"
-                            value={newAddress.addressLine}
-                            onChange={(e) =>
-                              handleNewAddressChange(
-                                "addressLine",
-                                e.target.value
-                              )
-                            }
-                            placeholder="Enter address line"
-                          />
-                        </div>
-                        <div className="single-field">
-                          <label>City</label>
-                          <input
-                            type="text"
-                            value={newAddress.city}
-                            onChange={(e) =>
-                              handleNewAddressChange("city", e.target.value)
-                            }
-                            placeholder="Enter city"
-                          />
-                        </div>
-                        <div className="single-field">
-                          <label>State</label>
-                          <input
-                            type="text"
-                            value={newAddress.state}
-                            onChange={(e) =>
-                              handleNewAddressChange("state", e.target.value)
-                            }
-                            placeholder="Enter state"
-                          />
-                        </div>
-                        <div className="single-field">
-                          <label>Postal Code</label>
-                          <input
-                            type="text"
-                            value={newAddress.postalCode}
-                            onChange={(e) =>
-                              handleNewAddressChange(
-                                "postalCode",
-                                e.target.value
-                              )
-                            }
-                            placeholder="Enter postal code"
-                          />
-                        </div>
+                        {["addressLine", "city", "state", "postalCode"].map(
+                          (field) => (
+                            <div className="single-field" key={field}>
+                              <label>{field.replace(/([A-Z])/g, " $1")}</label>
+                              <input
+                                type="text"
+                                value={newAddress[field]}
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  if (field === "postalCode") {
+                                    if (/^\d*$/.test(value)) {
+                                      handleNewAddressChange(field, value);
+                                    }
+                                  } else {
+                                    handleNewAddressChange(field, value);
+                                  }
+                                }}
+                                maxLength={field === "postalCode" ? 6 : 50}
+                                placeholder={
+                                  field === "postalCode"
+                                    ? "6-digit PIN code"
+                                    : ""
+                                }
+                              />
+                            </div>
+                          )
+                        )}
                       </div>
-                      <button
-                        className="add-btn"
-                        type="button"
-                        onClick={handleAddNewAddress}
-                      >
+                      <button className="add-btn" onClick={handleAddNewAddress}>
                         Add Address
                       </button>
                     </>
@@ -359,6 +464,13 @@ useEffect(() => {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Logout Button OUTSIDE container */}
+          <div className="logout-wrapper">
+            <button className="logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
         </div>
       </div>

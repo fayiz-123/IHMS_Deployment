@@ -54,7 +54,7 @@ const ForgotPassword = () => {
                                 {loading ? "Sending..." : "Send OTP"}
                             </button>
                         </form>
-                        {message && <p className="error-message">{message}</p>}
+                        {message && <p className="success-message">{message}</p>}
                     </div>
                 </div>
             </div>

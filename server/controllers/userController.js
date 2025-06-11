@@ -4,6 +4,8 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const verifygmail = require("../utils/verifyGmail");
 const generateOtp = require("../utils/generateOtp");
+const path = require("path");
+const deleteFile = require("../utils/deleteFIle");
 const passwordResetGmail = require("../utils/passwordResetGmail.");
 const welcomeMail = require("../utils/welcomeGmail");
 
@@ -211,7 +213,7 @@ async function resetPassword(req, res) {
     user.password = newHashedPassword;
     await user.save();
     return res
-      .status(400)
+      .status(200)
       .json({ success: true, message: "Password updated Successfully" });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
@@ -240,7 +242,64 @@ async function profile(req, res) {
       address: primaryaddress,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
+  }
+}
+
+//profilePhoto -- ADD or Update(WHEN UPDATE THE OLD WILL BE DELETED AND REPLACED)
+async function profilePhoto(req, res) {
+  try {
+    const userId = req.user._id;
+    const pic = req.file;
+    
+    if (!pic) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Image is Needed" });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User Not Found" });
+    }
+
+    if (user.profilePic) {
+      deleteFile(user.profilePic); 
+    }
+
+    user.profilePic = `/uploads/profile-pics/${pic.filename}`;
+    user.save();
+    return res
+      .status(200)
+      .json({ success: true, message: "Image Added Successfully", user });
+  } catch (error) {
+    return nres.status(500).json({ success: false, message: error.message });
+  }
+}
+
+//deleteProfilePhoto
+
+async function deletePhoto(req, res) {
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User Not Found" });
+    }
+    if (user.profilePic) {
+      deleteFile(user.profilePic);
+    }
+    user.profilePic = null;
+    user.save();
+    return res
+      .status(200)
+      .json({ success: true, message: "Profile Photo Deleted SuccessFully" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
   }
 }
 
@@ -406,6 +465,8 @@ module.exports = {
   resendOtp,
   login,
   profile,
+  profilePhoto,
+  deletePhoto,
   profileUpdate,
   addNewAddress,
   deleteAddress,

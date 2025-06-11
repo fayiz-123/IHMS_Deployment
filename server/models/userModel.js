@@ -38,6 +38,9 @@ const userSchema = new mongoose.Schema({
             default:false
         }
     }],
+    profilePic:{
+        type:String
+    },
     otp:{
         type:String,
         index:{expires: 300},

@@ -105,6 +105,10 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  #waste-management .hero-section {
+    padding-top: 100px; /* Push content below fixed navbar */
+  }
+
   #waste-management .hero-section h1 {
     font-size: 2.2rem;
   }
@@ -121,6 +125,7 @@
     font-size: 1rem;
   }
 }
+
 
 /* Animations */
 @keyframes fadeIn {

@@ -1,280 +1,346 @@
-/* General Styling */
-* {
+/* Reset & Base */
+#profile-update * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
+#profile-update body {
   font-family: 'Poppins', sans-serif;
   background-color: #f9f9f9;
   color: #333;
   overflow-x: hidden;
 }
 
-/* Main container */
+/* Main wrapper */
 #profile-update {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  padding: 50px 20px;
+  min-height: 120vh;
+  background-color: #f0f2f5;
+}
+
+/* Outer wrapper */
+#profile-update .wrapper.profile-update {
+  width: 100%;
+  max-width: 720px;
+  margin: auto;
   padding: 20px;
 }
 
-/* Wrapper */
-#profile-update .wrapper.profile-update {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Two columns container */
+/* Container box */
 #profile-update .container {
   display: flex;
-  width: 100%;
-  max-width: 1100px;
+  flex-direction: column;
   background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 3px 6px rgba(0, 0, 255, 0.3);
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  min-height: 800px;
+  margin-bottom: 30px;
 }
 
-/* Left column */
+/* Top section */
 #profile-update .col-left {
-  width: 50%;
+  width: 100%;
   background-color: rgb(40, 40, 116);
   color: white;
-  padding: 40px;
+  padding: 40px 30px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   text-align: center;
 }
 
-/* Right column */
-#profile-update .col-right {
-  width: 50%;
-  padding: 40px;
+#profile-update .update-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-/* Heading and Text in left column */
-#profile-update .update-text h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
+#profile-update .profile-pic-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+#profile-update .profile-pic {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+#profile-update .upload-label {
+  padding: 6px 14px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+#profile-update .upload-label:hover {
+  background-color: #0056b3;
+}
+
+#profile-update .delete-btn {
+  padding: 6px 14px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+#profile-update .delete-btn:hover {
+  background-color: #c82333;
+}
+
+#profile-update .loading-text {
+  font-size: 14px;
+  color: #888;
+}
+
+/* Right form section */
+#profile-update .col-right {
+  width: 100%;
+  padding: 40px 30px;
+}
+
+/* Headings */
+#profile-update .update-text h2,
+#profile-update .update-form h2 {
+  font-size: 1.6rem;
+  margin-bottom: 18px;
+  text-align: center;
 }
 
 #profile-update .update-text p {
-  font-size: 1.1rem;
-  line-height: 1.5;
-  margin-bottom: 20px;
-}
-
-/* Form heading */
-#profile-update .update-form h2 {
-  font-size: 2rem;
-  margin-bottom: 30px;
-  color: rgb(40, 40, 116);
+  font-size: 1rem;
+  margin-bottom: 18px;
   text-align: center;
 }
 
-/* Paragraphs inside form */
-#profile-update .update-form form p {
-  margin-bottom: 6px;
-}
-
-/* Labels */
+/* Form structure */
 #profile-update .update-form label {
-  color: rgb(40, 40, 116);
-  display: block;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
+  display: block;
+  color: rgb(40, 40, 116);
 }
 
-/* Text inputs */
 #profile-update .update-form input[type="text"],
 #profile-update .update-form input[type="email"],
 #profile-update .update-form input[type="password"],
 #profile-update .update-form input[type="number"],
 #profile-update .update-form textarea {
   width: 100%;
-  padding: 12px 20px;
-  border: 1px solid #080808;
-  border-radius: 5px;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
   font-size: 1rem;
   margin-bottom: 15px;
   transition: border-color 0.3s ease;
 }
 
-#profile-update .update-form input[type="text"]:focus,
-#profile-update .update-form input[type="email"]:focus,
-#profile-update .update-form input[type="password"]:focus,
-#profile-update .update-form input[type="number"]:focus,
+#profile-update .update-form input:focus,
 #profile-update .update-form textarea:focus {
   border-color: rgb(40, 40, 116);
   outline: none;
 }
 
-/* Submit button */
 #profile-update .update-form input[type="submit"] {
-  background-color: rgb(40, 40, 116);
-  color: #fff;
-  cursor: pointer;
-  border: none;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-  padding: 12px 20px;
-  font-size: 1rem;
-  border-radius: 5px;
   width: 100%;
+  padding: 12px;
+  background-color: rgb(40, 40, 116);
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s ease;
 }
 
 #profile-update .update-form input[type="submit"]:hover {
   background-color: #5a3b8d;
 }
 
-#profile-update .update-form input[type="submit"]:active {
-  transform: scale(0.98);
+/* Address section */
+#profile-update .address-section {
+  margin-top: 25px;
 }
 
-/* Address Section */
-.address-section {
-  margin-top: 20px;
-}
-
-.address-section label {
-  font-size: 1.3rem;
-  font-weight: 700;
+#profile-update .address-section label {
+  font-size: 1.2rem;
+  font-weight: bold;
   color: rgb(40, 40, 116);
-  display: block;
   margin-bottom: 15px;
+  display: block;
 }
 
-/* Address Card */
-.address-card {
+/* Address card */
+#profile-update .address-card {
+  background-color: #f4f6fc;
+  padding: 18px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 20px;
   margin-bottom: 20px;
-  background-color: #f4f6fc;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Primary Address Highlight */
-.address-card.primary-address {
+#profile-update .address-card.primary-address {
   border-color: #28a745;
   background-color: #e6ffe6;
   box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
 }
 
-/* Single field inside address */
-.single-field {
+#profile-update .address-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  margin-top: 10px;
+}
+
+#profile-update .address-details .field {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+}
+
+#profile-update .address-details label {
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 2px;
+}
+
+#profile-update .address-details span {
+  color: #333;
+  padding: 4px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* Add New Address input */
+#profile-update .single-field {
   margin-bottom: 15px;
 }
 
-.single-field label {
-  display: block;
+#profile-update .single-field label {
   font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
   color: #2b2b7f;
-  margin-bottom: 5px;
 }
 
-.single-field input {
+#profile-update .single-field input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #aaa;
-  border-radius: 5px;
   font-size: 1rem;
-  background-color: #fff;
+  border: 1px solid #aaa;
+  border-radius: 6px;
   transition: border-color 0.3s ease;
 }
 
-.single-field input:focus {
+#profile-update .single-field input:focus {
   border-color: rgb(40, 40, 116);
-  outline: none;
 }
 
-/* Buttons inside address cards */
-.address-buttons {
+/* Address buttons */
+#profile-update .address-buttons {
   display: flex;
   gap: 10px;
   margin-top: 10px;
-  padding-bottom: 5px;
-  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
-.add-btn, .remove-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#profile-update .add-btn,
+#profile-update .remove-btn {
   padding: 8px 15px;
+  font-size: 0.9rem;
   border: none;
   border-radius: 5px;
-  font-size: 0.9rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.add-btn {
+#profile-update .add-btn {
   background-color: #28a745;
   color: white;
 }
 
-.add-btn:hover {
+#profile-update .add-btn:hover {
   background-color: #218838;
 }
 
-.remove-btn {
+#profile-update .remove-btn {
   background-color: #dc3545;
   color: white;
 }
 
-.remove-btn:hover {
+#profile-update .remove-btn:hover {
   background-color: #c82333;
 }
+
+/* Center the logout button under the profile box */
+.logout-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* small vertical space */
+}
+
+/* Style for the logout button */
+#profile-update .logout-btn {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #dc3545;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+#profile-update .logout-btn:hover {
+  background-color: #a53944;
+}
+
+
 
 /* Responsive */
 @media (max-width: 768px) {
   #profile-update .container {
     flex-direction: column;
-    max-width: 100%;
+    min-height: auto;
   }
 
-  #profile-update .col-left,
-  #profile-update .col-right {
-    width: 100%;
+  #profile-update .profile-pic {
+    width: 90px;
+    height: 90px;
   }
 
-  #profile-update .update-text h2,
-  #profile-update .update-form h2 {
-    font-size: 1.8rem;
-  }
-
-  #profile-update .update-form input[type="text"],
-  #profile-update .update-form input[type="email"],
-  #profile-update .update-form input[type="password"],
-  #profile-update .update-form input[type="number"],
-  #profile-update .update-form textarea {
-    font-size: 1rem;
-  }
-
-  .address-card {
-    padding: 15px;
-  }
-
-  .single-field input {
-    font-size: 0.95rem;
-  }
-
-  .address-buttons {
+  #profile-update .address-buttons {
     flex-direction: column;
-    align-items: center;
     gap: 8px;
   }
 
-  .remove-btn, .add-btn {
+  #profile-update .add-btn,
+  #profile-update .remove-btn {
     width: 100%;
+  }
+
+  #profile-update .address-details {
+    grid-template-columns: 1fr;
   }
 }

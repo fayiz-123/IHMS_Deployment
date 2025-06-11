@@ -117,7 +117,9 @@ async function Logout(req, res) {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false,
+      secure: true,
+      sameSite: "None", 
+      path: "/",
     });
     return res
       .status(200)
