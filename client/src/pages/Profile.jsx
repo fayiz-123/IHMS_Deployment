@@ -57,42 +57,37 @@ function Profile() {
   }, [navigate, baseApiUrl]);
 
   const handleUpdate = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+  e.preventDefault();
+  setError("");
+  setSuccess("");
 
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      setError("Unauthorized. Please log in again.");
-      return;
-    }
+  const token = localStorage.getItem("authToken");
+  if (!token) {
+    setError("Unauthorized. Please log in again.");
+    return;
+  }
 
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("phone", phone);
-    if (preview) formData.append("profilePic", preview);
-
-    try {
-      const { data } = await axios.put(
-        `${baseApiUrl}/updateProfile`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (data.success) {
-        setSuccess(data.message);
-        setProfilePic(data.user.profilePic);
-        setTimeout(() => navigate("/"), 2000);
+  try {
+    const { data } = await axios.put(
+      `${baseApiUrl}/updateProfile`,
+      { username, phone }, // ✅ plain JSON body
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       }
-    } catch (err) {
-      setError(err.response?.data?.message || "Profile update failed.");
+    );
+
+    if (data.success) {
+      setSuccess(data.message);
+      setTimeout(() => navigate("/"), 2000);
     }
-  };
+  } catch (err) {
+    setError(err.response?.data?.message || "Profile update failed.");
+  }
+};
+
 
   //handleFileChange -- AddProfilePicture
 

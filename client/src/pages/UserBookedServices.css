@@ -9,18 +9,16 @@
   --font-family: "Poppins", sans-serif;
 }
 
-/* ---------- DESKTOP / TABLE VIEW ---------- */
+/* ---------- CONTAINER ---------- */
 #user-services-page {
-  width: 90%;
-  margin-left: 160px;
-  margin-top: 120px;
   max-width: 1200px;
+  width: 100%;
+  margin: 120px auto 0 auto; /* center the page */
   background: #fff;
   padding: 20px;
   box-shadow: 0 4px 8px var(--card-shadow);
   border-radius: 10px;
   font-family: var(--font-family);
-  overflow-x: auto;
 }
 
 #user-services-header {
@@ -45,8 +43,10 @@
 
 #user-services-table-section {
   padding: 20px 0;
+  overflow-x: auto;
 }
 
+/* ---------- TABLE STYLING ---------- */
 #user-services-table {
   width: 100%;
   border-collapse: collapse;
@@ -81,35 +81,35 @@
   white-space: nowrap;
 }
 
-/* ---------- TABLET ADJUST ---------- */
+/* ---------- RESPONSIVE TABLET ---------- */
 @media (max-width: 1024px) {
   #user-services-page {
-    margin-left: 0;
-    margin-top: 80px;
     width: 95%;
     padding: 15px;
+    margin-top: 80px;
   }
-  #user-services-table {
-    min-width: 100%;
-  }
+
   .table-header,
   .table-cell {
     font-size: 0.9rem;
     padding: 10px 8px;
   }
+
   #user-services-header h1 {
     font-size: 2rem;
   }
 }
 
-/* ---------- MOBILE CARD VIEW ≤ 768px ---------- */
+/* ---------- RESPONSIVE MOBILE ---------- */
 @media (max-width: 768px) {
-  /* hide classic header */
+  #user-services-table {
+    min-width: 100%;
+  }
+
   #user-services-table thead {
     display: none;
   }
 
-  /* stack */
   #user-services-table,
   #user-services-table tbody,
   #user-services-table tr,
@@ -118,35 +118,27 @@
     width: 100%;
   }
 
-  /* card */
   #user-services-table tr.table-row {
     background: #fff;
-    margin: 0 0 16px;
+    margin-bottom: 16px;
     border-radius: 10px;
     box-shadow: 0 2px 8px var(--card-shadow);
-    overflow: hidden;
-    transition: box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
+    padding: 8px 0;
   }
 
-  #user-services-table tr.table-row:hover {
-    background: #f2f6ff;
-    box-shadow: 0 4px 12px rgba(40, 40, 116, 0.25);
-  }
-
-  /* default cell grid (label | value) */
   #user-services-table td.table-cell {
     display: grid;
     grid-template-columns: 140px 1fr;
-    gap: 0 12px;
+    gap: 8px;
     align-items: center;
     padding: 14px 18px;
     font-size: 1rem;
-    border: 0;
     border-bottom: 1px solid #ececec;
     white-space: normal;
   }
+
   #user-services-table tr.table-row td.table-cell:last-child {
     border-bottom: none;
   }
@@ -157,19 +149,12 @@
     color: rgb(40, 40, 116);
   }
 
-  /* value area */
-  #user-services-table td.table-cell {
-    font-weight: 400;
-    color: var(--text-color);
-  }
-
-  /* ----- Status row rendered as FLEX for perfect align ----- */
   #user-services-table td.table-cell[data-label="Status"] {
-    display: flex;               /* override grid for this one */
+    display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: 600;
-    color: transparent;          /* hides raw text */
+    color: transparent;
   }
 
   #user-services-table td.table-cell[data-label="Status"]::before {
@@ -189,7 +174,7 @@
   }
 }
 
-/* ---------- ULTRA-SMALL PHONES ≤ 480px ---------- */
+/* ---------- ULTRA-SMALL ---------- */
 @media (max-width: 480px) {
   #user-services-table td.table-cell {
     grid-template-columns: 110px 1fr;
@@ -198,11 +183,12 @@
   }
 }
 
-/* ---------- SHARED ENHANCEMENTS ---------- */
+/* ---------- ENHANCEMENTS ---------- */
 #user-services-table {
   scrollbar-width: thin;
   scrollbar-color: var(--primary-color) transparent;
 }
+
 #user-services-table::-webkit-scrollbar {
   height: 8px;
 }

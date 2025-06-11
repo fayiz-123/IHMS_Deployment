@@ -65,14 +65,14 @@ function UserBookedServices() {
             </thead>
             <tbody>
               {Array.isArray(services) && services.length > 0 ? (
-                services.map((service, index) => (
-                  <tr key={service._id} className="table-row">
+                services.map((service) => (
+                  <tr key={service._id} className="table-row">  
                     <td
                       className="table-cell"
                       data-label="ID"
-                      data-value={index + 1}
+                      data-value={service._id}
                     >
-                      {index + 1}
+                      {service._id}
                     </td>
                     <td
                       className="table-cell"
@@ -86,9 +86,9 @@ function UserBookedServices() {
                       data-label="Booking Date"
                       data-value={new Date(
                         service.createdAt
-                      ).toLocaleDateString()}
+                      ).toLocaleDateString("en-GB")}
                     >
-                      {new Date(service.createdAt).toLocaleDateString()}
+                      {new Date(service.createdAt).toLocaleDateString("en-GB")}
                     </td>
                     <td
                       className="table-cell"
