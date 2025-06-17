@@ -7,6 +7,8 @@ function OtpVerification() {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [verifying, setVerifying] = useState(false);
+  const [resending, setResending] = useState(false);
   const [resendMessage, setResendMessage] = useState("");
   const [countdown, setCountdown] = useState(0);
   const navigate = useNavigate();
@@ -19,9 +21,13 @@ function OtpVerification() {
     e.preventDefault();
     setError("");
     setSuccess("");
+    setVerifying(true);
 
     try {
-      const response = await axios.post(`${baseApiUrl}/otp-verification`, { email, otp });
+      const response = await axios.post(`${baseApiUrl}/otp-verification`, {
+        email,
+        otp,
+      });
 
       if (response.data.success) {
         setSuccess("OTP Verified Successfully!");
@@ -34,6 +40,7 @@ function OtpVerification() {
         setError("OTP verification failed. Please try again later.");
       }
     }
+    setVerifying(false);
   };
 
   // Handle Resend OTP
@@ -41,6 +48,7 @@ function OtpVerification() {
     e.preventDefault(); // Prevent default link behavior
     setError("");
     setResendMessage("");
+    setResending(true);
 
     try {
       const response = await axios.post(`${baseApiUrl}/otp-resend`, { email });
@@ -52,6 +60,7 @@ function OtpVerification() {
     } catch (err) {
       setError("Failed to resend OTP. Please try again later.");
     }
+    setResending(false);
   };
 
   // Countdown timer effect
@@ -66,7 +75,9 @@ function OtpVerification() {
     <div id="otp">
       <div className="otp-container">
         <h2>Verify Your Email</h2>
-        <p>Enter the OTP sent to your email: <b>{email}</b></p>
+        <p>
+          Enter the OTP sent to your email: <b>{email}</b>
+        </p>
         {success && <p className="success">{success}</p>}
         {error && <p className="error">{error}</p>}
         {resendMessage && <p className="success">{resendMessage}</p>}
@@ -79,7 +90,9 @@ function OtpVerification() {
             onChange={(e) => setOtp(e.target.value)}
             required
           />
-          <button type="submit" className="verify-btn">Verify OTP</button>
+          <button type="submit" className="verify-btn" disabled={verifying}>
+            {verifying ? "Verifying..." : "Verify OTP"}
+          </button>
         </form>
 
         {/* Resend OTP as a Link */}
@@ -87,7 +100,9 @@ function OtpVerification() {
           {countdown > 0 ? (
             <span className="countdown">Resend OTP in {countdown}s</span>
           ) : (
-            <a href="#" onClick={handleResendOtp} className="resend-link">Resend OTP</a>
+            <a href="#" onClick={handleResendOtp} className="resend-link">
+              {resending ? "Resending..." : "Resend OTP"}
+            </a>
           )}
         </p>
       </div>

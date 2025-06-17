@@ -6,6 +6,7 @@ import "./LoginPage.css"; // Ensure it's correctly imported
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const [isloading,setIsLoading] = useState(false)
   const [unverifiedEmail, setUnverifiedEmail] = useState("");
   const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Login = () => {
     e.preventDefault();
     setError(""); // Clear previous errors
     setUnverifiedEmail(""); // Reset unverified email
+    setIsLoading(true)
 
     try {
       const response = await axios.post(`${baseApiUrl}/login`, formData);
@@ -40,6 +42,7 @@ const Login = () => {
         setError("Something went wrong. Please try again.");
       }
     }
+    setIsLoading(false)
   };
 
   return (
@@ -91,7 +94,7 @@ const Login = () => {
               </p>
 
               <p>
-                <input type="submit" value="Sign In" />
+                <input type="submit" value={isloading?"Signing In...":"Sign In"} />
               </p>
             </form>
 
