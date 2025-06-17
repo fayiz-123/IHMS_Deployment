@@ -1,25 +1,20 @@
-const nodemailer = require("nodemailer");
-require("dotenv").config();
+const nodemailer = require('nodemailer')
+require('dotenv').config()
 
-async function passwordResetGmail(username, email, resetLink) {
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_COMPANY,
-        pass: process.env.APP_PASS,
-      },
-      headers: {
-        "X-Priority": "1",
-        "X-MSMail-Priority": "High",
-        Importance: "High",
-      },
-    });
-    await transporter.sendMail({
-      from: `"IHMS Support" <${process.env.EMAIL_COMPANY}>`,
-      to: email,
-      subject: "IHMS Security Notification",
-      html: `<!DOCTYPE html>
+async function passwordResetGmail(username,email,resetLink) {
+    try {
+        const transporter = nodemailer.createTransport({
+            service:"gmail",
+            auth:{
+                user:process.env.EMAIL_COMPANY,
+                pass:process.env.APP_PASS
+            }
+           })
+            await transporter.sendMail({
+                from: `"IHMS Support" <${process.env.EMAIL_COMPANY}>`,
+                to: email,
+                subject: "Reset Your Password - IHMS",
+                html: `<!DOCTYPE html>
                 <html>
                 <head>
                     <style>
@@ -88,12 +83,15 @@ async function passwordResetGmail(username, email, resetLink) {
                 </body>
                 </html>
             `,
-    });
-    return true;
-  } catch (error) {
-    console.log("Email not Sent SuccessFully", error.message);
-    return false;
-  }
+
+          })
+          return true;
+    } catch (error) {
+        console.log("Email not Sent SuccessFully",error.message);
+        return false;
+        
+    } 
+  
 }
 
-module.exports = passwordResetGmail;
+module.exports=passwordResetGmail;
