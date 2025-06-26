@@ -33,6 +33,17 @@ function Nav() {
     fetchUserProfile();
   }, []);
 
+  const getProfilePicUrl = (pic) => {
+  if (!pic || pic === "null" || pic === "undefined") {
+    return "https://www.w3schools.com/howto/img_avatar.png";
+  }
+
+  return pic.startsWith("http")
+    ? pic
+    : `${baseApiUrl}${pic.startsWith("/") ? pic : `/${pic}`}`;
+};
+
+
   return (
     <div id="nav">
       <header>
@@ -74,17 +85,7 @@ function Nav() {
                     Hello, <b>{userName}</b>
                   </span>
                   <img
-                    src={
-                      profilePic &&
-                      profilePic !== "null" &&
-                      profilePic !== "undefined"
-                        ? `${baseApiUrl}${
-                            profilePic.startsWith("/")
-                              ? profilePic
-                              : `/${profilePic}`
-                          }`
-                        : "https://www.w3schools.com/howto/img_avatar.png"
-                    }
+                    src={getProfilePicUrl(profilePic)}
                     alt="Profile"
                     className="profile-image"
                   />
@@ -101,19 +102,7 @@ function Nav() {
                   Hello, <b>{userName}</b>
                 </span>
                 <img
-                  src={
-                    profilePic &&
-                    profilePic !== "null" &&
-                    profilePic !== "undefined"
-                      ? profilePic.startsWith("http")
-                        ? profilePic
-                        : `${baseApiUrl}${
-                            profilePic.startsWith("/")
-                              ? profilePic
-                              : `/${profilePic}`
-                          }`
-                      : "https://www.w3schools.com/howto/img_avatar.png"
-                  }
+                  src={getProfilePicUrl(profilePic)}
                   alt="Profile"
                   className="profile-image"
                 />
