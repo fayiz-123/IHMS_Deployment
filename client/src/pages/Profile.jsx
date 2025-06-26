@@ -82,7 +82,7 @@ function Profile() {
 
       if (data.success) {
         setSuccess(data.message);
-        setTimeout(() => navigate("/"), 2000);
+        setTimeout(() => navigate("/"), 4000);
       }
     } catch (err) {
       setError(err.response?.data?.message || "Profile update failed.");
