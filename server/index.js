@@ -14,6 +14,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
+   'http://localhost:5175',
   'https://ihms.vercel.app',
   'https://ihms-adminpanel.vercel.app'
 ];

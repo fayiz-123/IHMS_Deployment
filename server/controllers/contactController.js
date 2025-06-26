@@ -15,7 +15,8 @@ async function contactMessage(req,res) {
         const newMessage = new Contact({
             name:name,
             email:email,
-            message:message,      
+            message:message,   
+            userId:userId   
         })
     
         const saveMessage = await newMessage.save()

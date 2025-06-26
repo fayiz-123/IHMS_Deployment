@@ -118,7 +118,7 @@ async function Logout(req, res) {
     res.clearCookie("token", {
       httpOnly: true,
       secure: true,
-      sameSite: "None", 
+      sameSite: "None",
       path: "/",
     });
     return res
@@ -141,12 +141,31 @@ async function getUsers(req, res) {
   }
 }
 
+//getOneUser
+
+async function getOneUser(req, res) {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User Not Found" });
+    }
+    return res
+      .status(200)
+      .json({ success: true, message: "User Details", user });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+}
+
 //userBookedServices
 async function UserServices(req, res) {
   try {
     const { userId } = req.params;
 
-    const userServices = await Service.find({ userId }).sort({createdAt:-1});
+    const userServices = await Service.find({ userId }).sort({ createdAt: -1 });
 
     if (!userServices) {
       return res
@@ -162,12 +181,35 @@ async function UserServices(req, res) {
 //bookedServices
 async function bookedServices(req, res) {
   try {
-    const allBookings = await Service.find().sort({createdAt:-1});
+    const allBookings = await Service.find().sort({ createdAt: -1 });
     res
       .status(200)
       .json({ success: true, message: "All BookedServices Are", allBookings });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
+  }
+}
+//getUserBookedServices
+
+async function getBookedServices(req, res) {
+  try {
+    const { userId } = req.params;
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "UserId not provided" });
+    }
+    const bookedServices = await Service.find({userId}).sort({createdAt:-1});
+    if (!bookedServices || bookedServices.length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No Bookings Found For this User" });
+    }
+    return res
+      .status(200)
+      .json({ success: true, message: "All Bookings Retreived Successfully", bookedServices });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
   }
 }
 
@@ -188,6 +230,35 @@ async function contactMessages(req, res) {
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
+  }
+}
+
+//getUserContactMessages
+
+async function getUserContactMessages(req, res) {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "UserId not provided" });
+    }
+    const contactMessages = await Contact.find({ userId }).sort({createdAt:-1});
+
+    if (!contactMessages || contactMessages.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No messages found for this user." });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "All messages retrieved successfully.",
+      contactMessages,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
   }
 }
 
@@ -255,8 +326,11 @@ module.exports = {
   getProfile,
   Logout,
   getUsers,
+  getOneUser,
   UserServices,
   bookedServices,
+  getBookedServices,
   contactMessages,
+  getUserContactMessages,
   UpdateServices,
 };
