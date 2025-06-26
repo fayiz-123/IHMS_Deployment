@@ -47,24 +47,42 @@ function Nav() {
 
           {/* Navigation Links */}
           <ul className={`nav-links ${menuOpen ? "nav-active" : ""}`}>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
-            <li><Link to="/myBookings">Bookings</Link></li>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/contact">Contact</Link>
+            </li>
+            <li>
+              <Link to="/myBookings">Bookings</Link>
+            </li>
 
             {!userName && (
-              <li><Link to="/login">Login</Link></li>
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
             )}
 
             {/* Profile inside menu on mobile */}
             {userName && (
               <li className="mobile-profile">
                 <Link to="/profile" className="user-link">
-                  <span className="username">Hello, <b>{userName}</b></span>
+                  <span className="username">
+                    Hello, <b>{userName}</b>
+                  </span>
                   <img
                     src={
-                      profilePic && profilePic !== "null" && profilePic !== "undefined"
-                        ? `${baseApiUrl}${profilePic.startsWith("/") ? profilePic : `/${profilePic}`}`
+                      profilePic &&
+                      profilePic !== "null" &&
+                      profilePic !== "undefined"
+                        ? `${baseApiUrl}${
+                            profilePic.startsWith("/")
+                              ? profilePic
+                              : `/${profilePic}`
+                          }`
                         : "https://www.w3schools.com/howto/img_avatar.png"
                     }
                     alt="Profile"
@@ -79,11 +97,21 @@ function Nav() {
           {userName && (
             <div className="profile-right desktop-only">
               <Link to="/profile" className="user-link">
-                <span className="username">Hello, <b>{userName}</b></span>
+                <span className="username">
+                  Hello, <b>{userName}</b>
+                </span>
                 <img
                   src={
-                    profilePic && profilePic !== "null" && profilePic !== "undefined"
-                      ? `${baseApiUrl}${profilePic.startsWith("/") ? profilePic : `/${profilePic}`}`
+                    profilePic &&
+                    profilePic !== "null" &&
+                    profilePic !== "undefined"
+                      ? profilePic.startsWith("http")
+                        ? profilePic
+                        : `${baseApiUrl}${
+                            profilePic.startsWith("/")
+                              ? profilePic
+                              : `/${profilePic}`
+                          }`
                       : "https://www.w3schools.com/howto/img_avatar.png"
                   }
                   alt="Profile"

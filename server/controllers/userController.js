@@ -5,9 +5,9 @@ const jwt = require("jsonwebtoken");
 const verifygmail = require("../utils/verifyGmail");
 const generateOtp = require("../utils/generateOtp");
 const path = require("path");
-const deleteFile = require("../utils/deleteFIle");
 const passwordResetGmail = require("../utils/passwordResetGmail.");
 const welcomeMail = require("../utils/welcomeGmail");
+const cloudinary = require("../utils/cloudinary");
 
 //signup
 async function signup(req, res) {
@@ -247,61 +247,83 @@ async function profile(req, res) {
 }
 
 //profilePhoto -- ADD or Update(WHEN UPDATE THE OLD WILL BE DELETED AND REPLACED)
+
 async function profilePhoto(req, res) {
   try {
     const userId = req.user._id;
-    const pic = req.file;
-    
+    const pic = req.file; // cloudinary file
+
     if (!pic) {
       return res
         .status(400)
-        .json({ success: false, message: "Image is Needed" });
+        .json({ success: false, message: "Image is needed" });
     }
 
     const user = await User.findById(userId);
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: "User Not Found" });
+        .json({ success: false, message: "User not found" });
     }
 
+    // 🔥 If an old Cloudinary image exists, delete it
     if (user.profilePic) {
-      deleteFile(user.profilePic); 
+      const segments = user.profilePic.split("/");
+      const fileWithExt = segments[segments.length - 1]; // eg: abc123.jpg
+      const publicId = "ihms/profile-pics/" + fileWithExt.split(".")[0];
+
+      await cloudinary.uploader.destroy(publicId);
     }
 
-    user.profilePic = `/uploads/profile-pics/${pic.filename}`;
-    user.save();
-    return res
-      .status(200)
-      .json({ success: true, message: "Image Added Successfully", user });
+    // ✅ Save new Cloudinary URL
+    user.profilePic = pic.path; // Cloudinary URL
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Image added successfully",
+      imageUrl: pic.path,
+      user,
+    });
   } catch (error) {
-    return nres.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 }
 
 //deleteProfilePhoto
 
-async function deletePhoto(req, res) {
+const deletePhoto = async (req, res) => {
   try {
     const userId = req.user._id;
     const user = await User.findById(userId);
+
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: "User Not Found" });
+        .json({ success: false, message: "User not found" });
     }
+
     if (user.profilePic) {
-      deleteFile(user.profilePic);
+      // ✅ Extract public_id from the URL
+      const segments = user.profilePic.split("/");
+      const fileWithExtension = segments[segments.length - 1]; // e.g. abc12345.jpg
+      const publicId = "ihms/profile-pics/" + fileWithExtension.split(".")[0]; // assuming stored in that folder
+
+      // ✅ Delete from Cloudinary
+      await cloudinary.uploader.destroy(publicId);
     }
+
+    // ✅ Remove from user
     user.profilePic = null;
-    user.save();
+    await user.save();
+
     return res
       .status(200)
-      .json({ success: true, message: "Profile Photo Deleted SuccessFully" });
+      .json({ success: true, message: "Profile photo deleted successfully" });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
-}
+};
 
 //updateProfile
 
@@ -318,7 +340,7 @@ async function profileUpdate(req, res) {
     if (username) user.username = username;
     if (phone) user.phone = phone;
 
-    await user.save()
+    await user.save();
 
     return res
       .status(200)

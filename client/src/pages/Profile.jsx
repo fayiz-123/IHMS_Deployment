@@ -22,6 +22,7 @@ function Profile() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const navigate = useNavigate();
   const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
 
@@ -57,37 +58,36 @@ function Profile() {
   }, [navigate, baseApiUrl]);
 
   const handleUpdate = async (e) => {
-  e.preventDefault();
-  setError("");
-  setSuccess("");
+    e.preventDefault();
+    setError("");
+    setSuccess("");
 
-  const token = localStorage.getItem("authToken");
-  if (!token) {
-    setError("Unauthorized. Please log in again.");
-    return;
-  }
-
-  try {
-    const { data } = await axios.put(
-      `${baseApiUrl}/updateProfile`,
-      { username, phone }, // ✅ plain JSON body
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (data.success) {
-      setSuccess(data.message);
-      setTimeout(() => navigate("/"), 2000);
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      setError("Unauthorized. Please log in again.");
+      return;
     }
-  } catch (err) {
-    setError(err.response?.data?.message || "Profile update failed.");
-  }
-};
 
+    try {
+      const { data } = await axios.put(
+        `${baseApiUrl}/updateProfile`,
+        { username, phone }, // ✅ plain JSON body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (data.success) {
+        setSuccess(data.message);
+        setTimeout(() => navigate("/"), 2000);
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || "Profile update failed.");
+    }
+  };
 
   //handleFileChange -- AddProfilePicture
 
@@ -101,8 +101,8 @@ function Profile() {
       return;
     }
 
-    setUploading(true);
-    setPreview(file); // Preview for UX
+    setUploading(true); // start loader
+    setPreview(null); // ❌ Don't show preview yet
 
     const token = localStorage.getItem("authToken");
     if (!token) {
@@ -127,8 +127,7 @@ function Profile() {
       );
 
       if (data.success) {
-        setProfilePic(data.user.profilePic);
-        setPreview(null);
+        setProfilePic(data.user.profilePic); // ✅ set only after upload succeeds
         alert("✅ Profile picture uploaded successfully.");
       } else {
         alert("❌ Image upload failed.");
@@ -148,7 +147,7 @@ function Profile() {
       return;
     }
 
-    setUploading(true);
+    setDeleting(true);
 
     try {
       const { data } = await axios.delete(
@@ -159,18 +158,24 @@ function Profile() {
       );
 
       if (data.success) {
-        setProfilePic("");
-        setPreview(null);
+        // ✅ Show alert FIRST
         alert("🗑️ Profile picture removed.");
+
+        // ✅ THEN remove image after a short delay
+        setTimeout(() => {
+          setProfilePic("");
+          setPreview(null);
+          setDeleting(false);
+        }, 10); // just 10ms is enough to let browser render alert first
       } else {
         alert("❌ Failed to delete profile picture.");
+        setDeleting(false);
       }
     } catch (err) {
       alert(
         err.response?.data?.message || "❌ Error deleting profile picture."
       );
-    } finally {
-      setUploading(false);
+      setDeleting(false);
     }
   };
 
@@ -292,29 +297,39 @@ function Profile() {
                 <h2>Your Profile</h2>
                 <p>Keep your account details updated.</p>
                 <div className="profile-pic-container">
-                  <img
-                    src={
-                      preview
-                        ? URL.createObjectURL(preview)
-                        : profilePic
-                        ? `${baseApiUrl}${profilePic}`
-                        : "https://www.w3schools.com/howto/img_avatar.png"
-                    }
-                    alt="Profile"
-                    className="profile-pic"
-                  />
+                  {!uploading && !deleting && profilePic ? (
+                    <img
+                      src={
+                        profilePic.startsWith("http")
+                          ? profilePic
+                          : `${baseApiUrl}${
+                              profilePic.startsWith("/")
+                                ? profilePic
+                                : `/${profilePic}`
+                            }`
+                      }
+                      alt="Profile"
+                      className="profile-pic"
+                    />
+                  ) : (
+                    <img
+                      src="https://www.w3schools.com/howto/img_avatar.png"
+                      alt="Default Avatar"
+                      className="profile-pic"
+                    />
+                  )}
 
-                  {uploading ? (
-                    <p className="loading-text">Uploading...</p>
+                  {uploading || deleting ? (
+                    <p className="loading-text">
+                      {uploading ? "Uploading..." : "Deleting..."}
+                    </p>
                   ) : (
                     <>
                       <label
                         htmlFor="profilePicUpload"
                         className="upload-label"
                       >
-                        {preview || profilePic
-                          ? "Change Image"
-                          : "Upload Image"}
+                        {profilePic ? "Change Image" : "Upload Image"}
                       </label>
                       <input
                         type="file"
@@ -323,7 +338,7 @@ function Profile() {
                         accept="image/*"
                         hidden
                       />
-                      {(profilePic || preview) && (
+                      {profilePic && (
                         <button
                           className="delete-btn"
                           onClick={handleDeleteProfilePic}
