@@ -101,7 +101,9 @@ const BookingForm = () => {
       );
 
       if (res.data.success) {
-        setIsSubmitted(true);
+        setIsSubmitted(true); 
+        const audio = new Audio("/sounds/Booking Success Sound.mp3")
+        audio.play();
         setTimeout(() => navigate("/myBookings"), 3000);
       }
     } catch (err) {
