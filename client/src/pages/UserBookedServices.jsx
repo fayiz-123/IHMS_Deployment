@@ -7,6 +7,7 @@ import "./UserBookedServices.css";
 function UserBookedServices() {
   const [services, setServices] = useState([]);
   const [error, setError] = useState(null);
+  const [loading,setLoading] = useState(false)
   const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
   
 
@@ -19,6 +20,7 @@ function UserBookedServices() {
           setError("User not authenticated. Please log in.");
           return;
         }
+        setLoading(true)
 
         const response = await axios.get(
           `${baseApiUrl}/service/viewServices`,
@@ -37,10 +39,22 @@ function UserBookedServices() {
       } catch (error) {
         setError("Error fetching booked services: " + error.message);
       }
+      finally{
+        setLoading(false)
+      }
     };
 
     fetchUserServices();
   }, []);
+
+   if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>🔄 Details are loading... Please wait</p>
+      </div>
+    );
+  }
 
   return (
     <>

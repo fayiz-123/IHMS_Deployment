@@ -19,9 +19,11 @@ function Profile() {
   });
   const [profilePic, setProfilePic] = useState("");
   const [preview, setPreview] = useState(null);
+  const [updating, setUpdating] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const navigate = useNavigate();
   const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
@@ -35,6 +37,7 @@ function Profile() {
           setTimeout(() => navigate("/"), 400);
           return;
         }
+        setLoading(true);
 
         const { data } = await axios.get(`${baseApiUrl}/profile`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -51,6 +54,8 @@ function Profile() {
         }
       } catch (err) {
         setError(err.response?.data?.message || "An error occurred.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -59,6 +64,7 @@ function Profile() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setUpdating(true);
     setError("");
     setSuccess("");
 
@@ -86,6 +92,8 @@ function Profile() {
       }
     } catch (err) {
       setError(err.response?.data?.message || "Profile update failed.");
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -285,6 +293,15 @@ function Profile() {
     navigate("/login");
   };
 
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>🔄 Details are loading... Please wait</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <Nav />
@@ -378,7 +395,19 @@ function Profile() {
                     />
                   </p>
                   <p>
-                    <input type="submit" value="Update Profile Info" />
+                    <input
+                      type="submit"
+                      value={updating ? "Updating..." : "Update Profile Info"}
+                      disabled={updating}
+                      style={{
+                        backgroundColor: updating ? "#ccc" : "#007bff",
+                        color: updating ? "#666" : "#fff",
+                        cursor: updating ? "not-allowed" : "pointer",
+                        padding: "10px 16px",
+                        border: "none",
+                        borderRadius: "4px",
+                      }}
+                    />
                   </p>
                 </form>
 
