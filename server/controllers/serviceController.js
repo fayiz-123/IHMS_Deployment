@@ -42,7 +42,7 @@ async function bookService(req, res) {
     const serviceName = service;
 
     res
-      .status(200)
+      .status(201)
       .json({
         success: true,
         message: "Service Booked Successfully",
