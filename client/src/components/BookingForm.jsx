@@ -104,7 +104,7 @@ const BookingForm = () => {
         setIsSubmitted(true); 
         const audio = new Audio("/sounds/Booking Success Sound.mp3")
         audio.play();
-        setTimeout(() => navigate("/myBookings"), 3000);
+        setTimeout(() => navigate("/myBookings"), 4000);
       }
     } catch (err) {
       setErrorMessage(err.response?.data?.message || "Booking failed.");
