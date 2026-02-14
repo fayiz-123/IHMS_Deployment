@@ -327,6 +327,11 @@ function Profile() {
                       }
                       alt="Profile"
                       className="profile-pic"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src =
+                          "https://www.w3schools.com/howto/img_avatar.png";
+                      }}
                     />
                   ) : (
                     <img

@@ -7,6 +7,9 @@ mongoose.connect(process.env.MONGO_URL)
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const path = require('path');
+const session = require('express-session');
+const passport = require('passport');
+require('./utils/passport');  
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
@@ -42,7 +45,15 @@ app.get('/health',(req,res)=>{
     res.send('Server is healthy')
 })
 
-
+// Session setup
+app.use(session({
+  secret: process.env.JWT_SECRET, // using your existing secret
+  resave: false,
+  saveUninitialized: false
+}));
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', userRoutes)
 app.use('/admin', adminRoutes)
 app.use('/service', serviceRoutes)

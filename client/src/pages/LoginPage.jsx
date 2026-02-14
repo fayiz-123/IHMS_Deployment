@@ -1,18 +1,40 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import "./LoginPage.css"; // Ensure it's correctly imported
+import "./LoginPage.css"; 
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [isloading,setIsLoading] = useState(false)
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [unverifiedEmail, setUnverifiedEmail] = useState("");
   const baseApiUrl = import.meta.env.VITE_BASE_API_URL;
   const navigate = useNavigate();
+  const location = useLocation();
+  const apiUrl = import.meta.env.VITE_BASE_API_URL
+  
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const token = queryParams.get("token");
+
+    if (token) {
+      localStorage.setItem("authToken", token);
+      navigate("/");
+    }
+  }, [location, navigate]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleGoogleLogin = () => {
+    setIsGoogleLoading(true);
+    // Redirect to backend auth route
+    // Assuming backend is on port 8000 based on index.js logs
+    // We use a direct URL here to ensure we hit the correct backend route regardless of VITE_BASE_API_URL proxying
+    window.open(`${apiUrl}/auth/google`, "_self");
   };
 
   const handleSubmit = async (e) => {
@@ -98,6 +120,49 @@ const Login = () => {
               </p>
             </form>
 
+            <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+              <button 
+                type="button" 
+                onClick={handleGoogleLogin} 
+                disabled={isGoogleLoading}
+                style={{ 
+                  backgroundColor: "#fff", 
+                  color: "#757575", 
+                  padding: "10px", 
+                  width: "100%", 
+                  border: "1px solid #ddd", 
+                  borderRadius: "4px",
+                  cursor: isGoogleLoading ? "not-allowed" : "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
+                  fontWeight: "bold",
+                  fontSize: "1rem",
+                  opacity: isGoogleLoading ? 0.7 : 1
+                }}
+              >
+                {isGoogleLoading ? (
+                  <>
+                    <div className="spinner" style={{
+                      width: "18px",
+                      height: "18px",
+                      border: "2px solid #757575",
+                      borderTop: "2px solid transparent",
+                      borderRadius: "50%",
+                      animation: "spin 1s linear infinite"
+                    }}></div>
+                    Signing in...
+                  </>
+                ) : (
+                  <>
+                    <img src="https://www.google.com/favicon.ico" alt="Google" style={{ width: "18px" }}/>
+                    Sign in with Google
+                  </>
+                )}
+              </button>
+            </div>
+
             {/* Forgot Password Link */}
             <p className="forgot-password">
               <Link to="/forgot-password">Forgot password?</Link>
@@ -111,6 +176,8 @@ const Login = () => {
                 </Link>
               </p>
             )}
+
+
           </div>
         </div>
       </div>
