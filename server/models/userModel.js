@@ -14,48 +14,53 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, "Password is required"],
+        required: function () { return !this.googleId; }
     },
-    phone:{
-        type:Number,
-        required:[true,"Phone Number is required"]
+    phone: {
+        type: Number,
+        required: function () { return !this.googleId; }
     },
-    addresses:[{
-        addressLine:{
-            type:String
+    googleId: {
+        type: String,
+        unique: true,
+        sparse: true // Allows multiple users to have 'null' googleId
+    },
+    addresses: [{
+        addressLine: {
+            type: String
         },
-        city:{
-            type:String,
+        city: {
+            type: String,
         },
-        state:{
-            type:String
+        state: {
+            type: String
         },
-        postalCode:{
-            type:Number
+        postalCode: {
+            type: Number
         },
-        primary:{
-            type:Boolean,
-            default:false
+        primary: {
+            type: Boolean,
+            default: false
         }
     }],
-    profilePic:{
-        type:String
+    profilePic: {
+        type: String
     },
-    otp:{
-        type:String,
-        index:{expires: 300},
+    otp: {
+        type: String,
+        index: { expires: 300 },
     },
-    isVerified:{
-        type:Boolean,
-        default:false
-    } ,
-    isFirstLoggedIn:{
-        type:Boolean,
-        default:true
+    isVerified: {
+        type: Boolean,
+        default: false
     },
-    lastLogin:{
-        type:Date, 
+    isFirstLoggedIn: {
+        type: Boolean,
+        default: true
+    },
+    lastLogin: {
+        type: Date,
     }
 
 }, { timestamps: true })
-module.exports = mongoose.model('User',userSchema)
+module.exports = mongoose.model('User', userSchema)

@@ -88,6 +88,11 @@ function Nav() {
                     src={getProfilePicUrl(profilePic)}
                     alt="Profile"
                     className="profile-image"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        "https://www.w3schools.com/howto/img_avatar.png";
+                    }}
                   />
                 </Link>
               </li>
@@ -105,6 +110,11 @@ function Nav() {
                   src={getProfilePicUrl(profilePic)}
                   alt="Profile"
                   className="profile-image"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      "https://www.w3schools.com/howto/img_avatar.png";
+                  }}
                 />
               </Link>
             </div>

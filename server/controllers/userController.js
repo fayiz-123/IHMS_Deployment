@@ -8,6 +8,7 @@ const path = require("path");
 const passwordResetGmail = require("../utils/passwordResetGmail.");
 const welcomeMail = require("../utils/welcomeGmail");
 const cloudinary = require("../utils/cloudinary");
+const passport = require("passport");
 
 //signup
 async function signup(req, res) {
@@ -482,6 +483,43 @@ async function setPrimaryAddress(req, res) {
   }
 }
 
+// Google Auth
+const googleAuth = passport.authenticate("google", {
+  scope: ["profile", "email"],
+});
+
+const googleAuthCallback = [
+  passport.authenticate("google", {
+    failureRedirect: `${process.env.RESET_LINK}/login`,
+  }),
+  (req, res) => {
+    // Generate JWT Token
+    const token = jwt.sign(
+      { userID: req.user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "14d" }
+    );
+
+    // Redirect to frontend with token
+    res.redirect(`${process.env.RESET_LINK}/login?token=${token}`);
+  },
+];
+
+const googleAuthSuccess = (req, res) => {
+  if (req.user) {
+    res.status(200).json({
+      success: true,
+      message: "successfull",
+      user: req.user,
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: "failure",
+    });
+  }
+};
+
 module.exports = {
   signup,
   otpVerification,
@@ -496,4 +534,7 @@ module.exports = {
   addNewAddress,
   deleteAddress,
   setPrimaryAddress,
+  googleAuth,
+  googleAuthCallback,
+  googleAuthSuccess,
 };
