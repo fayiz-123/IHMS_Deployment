@@ -486,6 +486,7 @@ async function setPrimaryAddress(req, res) {
 // Google Auth
 const googleAuth = passport.authenticate("google", {
   scope: ["profile", "email"],
+  prompt: "select_account",
 });
 
 const googleAuthCallback = [
