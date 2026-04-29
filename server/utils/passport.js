@@ -36,12 +36,20 @@ passport.use(
           user.profilePic = googleProfilePic;
         }
 
-        if (user.isFirstLoggedIn) {
-          await welcomeMail(user.email, user.username);
+        const shouldSendWelcomeMail = user.isFirstLoggedIn;
+        if (shouldSendWelcomeMail) {
           user.isFirstLoggedIn = false;
         }
 
         await user.save();
+
+        if (shouldSendWelcomeMail) {
+          setImmediate(() => {
+            welcomeMail(user.email, user.username).catch((err) => {
+              console.log("Welcome email failed:", err.message);
+            });
+          });
+        }
 
         done(null, user);
       } catch (err) {
